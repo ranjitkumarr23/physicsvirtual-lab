@@ -1,0 +1,823 @@
+/* =========================================================
+   XRD — MAXIMUM SCREEN / SINGLE-SCREEN LAYOUT
+   Keep existing xrd.js unchanged
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #07111f;
+    color: #e5f6ff;
+    overflow-x: hidden;
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.lab-header,
+header {
+    height: 58px !important;
+    min-height: 58px !important;
+    padding: 6px 24px !important;
+    margin: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    background: #0d1b2e !important;
+    border-bottom: 1px solid #1e4f6d !important;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-width: 0;
+}
+
+.home-button {
+    padding: 7px 12px !important;
+    background: #174866 !important;
+    color: #fff !important;
+    border: 1px solid #28698d !important;
+    border-radius: 6px !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.header-left h1,
+header h1 {
+    margin: 0 !important;
+    font-size: 21px !important;
+    line-height: 1.05 !important;
+}
+
+.header-left p,
+header p {
+    margin: 2px 0 0 !important;
+    color: #8db7cc !important;
+    font-size: 10px !important;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.status-light {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #35d07f;
+    box-shadow: 0 0 8px #35d07f;
+}
+
+/* =========================
+   MAIN
+   ========================= */
+
+.xrd-container,
+main.xrd-container {
+    width: 100% !important;
+    max-width: 1450px !important;
+    margin: 0 auto !important;
+    padding: 10px 18px 8px !important;
+}
+
+/* =========================
+   TOP: PHOTO + SPECTRUM
+   ========================= */
+
+.top-row {
+    width: 100%;
+
+    display: grid !important;
+    grid-template-columns: 40% 60% !important;
+    gap: 10px !important;
+
+    height: 390px !important;
+    min-height: 390px !important;
+}
+
+.top-row>.panel,
+.instrument-panel,
+.spectrum-panel {
+    min-width: 0 !important;
+    height: 390px !important;
+    min-height: 390px !important;
+    overflow: hidden !important;
+}
+
+/* =========================
+   PANELS
+   ========================= */
+
+.panel,
+.instrument-panel,
+.spectrum-panel,
+.control-panel,
+.measurement-strip {
+    background: #0d1b2e !important;
+    border: 1px solid #1e4f6d !important;
+    border-radius: 9px !important;
+}
+
+.panel {
+    padding: 10px !important;
+}
+
+.panel h2,
+.instrument-panel h2,
+.spectrum-panel h2,
+.control-panel h2 {
+    margin: 0 !important;
+    color: #73d8ff !important;
+    font-size: 15px !important;
+}
+
+.panel-heading,
+.spectrum-header,
+.section-title {
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.panel-heading span,
+#scanStatus {
+    color: #8db7cc;
+    font-size: 10px;
+}
+
+/* =========================
+   APPARATUS PHOTO
+   ========================= */
+
+.instrument-photo {
+    position: relative !important;
+
+    width: 100% !important;
+    height: 105px !important;
+    min-height: 105px !important;
+    max-height: 105px !important;
+
+    margin: 7px 0 6px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    overflow: hidden !important;
+
+    background: #07111f !important;
+    border: 1px solid #17354a !important;
+    border-radius: 6px !important;
+}
+
+.instrument-photo img {
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    max-width: 100% !important;
+    max-height: 100% !important;
+
+    object-fit: contain !important;
+    object-position: center center !important;
+}
+
+.photo-placeholder {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 3px;
+
+    color: #73d8ff;
+    font-size: 12px;
+}
+
+.photo-placeholder span {
+    color: #8db7cc;
+    font-size: 10px;
+}
+
+.instrument-photo:not(.no-photo) .photo-placeholder {
+    display: none !important;
+}
+
+/* =========================
+   INTERACTIVE APPARATUS
+   ========================= */
+
+.instrument {
+    position: relative !important;
+
+    width: 100% !important;
+    height: 185px !important;
+    min-height: 185px !important;
+    max-height: 185px !important;
+
+    margin: 0 !important;
+
+    background: #d8dce0 !important;
+    border: 1px solid #4d6877 !important;
+    border-radius: 6px !important;
+
+    overflow: hidden !important;
+}
+
+.xray-tube {
+    position: absolute;
+    left: 7%;
+    top: 67px;
+
+    width: 135px;
+    height: 50px;
+
+    background: #666;
+    border-radius: 9px;
+}
+
+.tube-label {
+    padding-top: 17px;
+    text-align: center;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.beam {
+    position: absolute;
+    left: 100%;
+    top: 23px;
+    width: 135px;
+    height: 3px;
+
+    background: #f5d76e;
+    box-shadow: 0 0 5px #f5d76e;
+}
+
+.crystal {
+    position: absolute;
+    left: 48%;
+    top: 57px;
+    text-align: center;
+}
+
+.crystal-label {
+    margin-bottom: 5px;
+    color: #222;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.crystal-block {
+    width: 42px;
+    height: 62px;
+
+    background: #8fd3ff;
+    border: 2px solid #4c8aaa;
+    transform: rotate(25deg);
+}
+
+.detector {
+    position: absolute;
+    right: 8%;
+    top: 51px;
+
+    text-align: center;
+    transform-origin: center center;
+    transition: transform 0.08s linear;
+
+    z-index: 5;
+}
+
+.detector-label {
+    margin-bottom: 5px;
+    color: #222;
+    font-size: 9px;
+}
+
+.detector-head {
+    width: 48px;
+    height: 64px;
+
+    background: #555;
+    border-radius: 6px;
+}
+
+.axis-label {
+    position: absolute;
+    left: 50%;
+    bottom: 7px;
+
+    transform: translateX(-50%);
+
+    color: #333;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.instrument-status {
+    height: 23px !important;
+    min-height: 23px !important;
+
+    margin-top: 5px !important;
+    padding: 5px !important;
+
+    background: #07111f !important;
+    border-radius: 5px !important;
+
+    text-align: center;
+    color: #8db7cc;
+    font-size: 9px;
+}
+
+/* =========================
+   SPECTRUM
+   ========================= */
+
+.spectrum-panel {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.spectrum-header {
+    flex: 0 0 25px;
+}
+
+.spectrum-container {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+
+    width: 100% !important;
+    margin: 4px 0 !important;
+}
+
+#xrdCanvas,
+.spectrum-panel>#xrdCanvas {
+    display: block !important;
+
+    width: 100% !important;
+    height: 315px !important;
+
+    max-width: 100% !important;
+
+    background: #02070d !important;
+    border: 1px solid #28465d !important;
+    border-radius: 6px !important;
+}
+
+.spectrum-readout {
+    flex: 0 0 34px;
+
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 7px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.spectrum-readout>div {
+    padding: 6px 10px;
+
+    background: #07111f;
+    border: 1px solid #17354a;
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.spectrum-readout span,
+.spectrum-readout small {
+    color: #8db7cc;
+    font-size: 9px;
+}
+
+.spectrum-readout strong {
+    color: #73d8ff;
+    font-size: 13px;
+}
+
+/* =========================
+   CONTROLS
+   ========================= */
+
+.control-panel {
+    width: 100% !important;
+    margin-top: 8px !important;
+    padding: 8px !important;
+}
+
+.section-title {
+    height: 22px;
+    margin-bottom: 5px;
+}
+
+.section-title span {
+    color: #6f9aad;
+    font-size: 9px;
+}
+
+.controls-grid {
+    display: grid !important;
+
+    grid-template-columns:
+        0.9fr 1.1fr 1.1fr 1.1fr 0.9fr 1.1fr 1fr 0.9fr 0.9fr 0.9fr !important;
+
+    gap: 6px !important;
+    width: 100% !important;
+}
+
+.control-card {
+    min-width: 0 !important;
+    min-height: 64px !important;
+
+    padding: 6px 7px !important;
+
+    background: #07111f !important;
+    border: 1px solid #17354a !important;
+    border-radius: 6px !important;
+}
+
+.control-card label {
+    display: block;
+    margin-bottom: 3px !important;
+
+    color: #b9d5e3;
+    font-size: 9px !important;
+    white-space: nowrap;
+}
+
+.value-row {
+    display: flex;
+    align-items: baseline;
+    gap: 3px;
+    margin-bottom: 1px;
+}
+
+.value-row strong {
+    color: white;
+    font-size: 13px;
+}
+
+.value-row span {
+    color: #8db7cc;
+    font-size: 9px;
+}
+
+input[type="range"] {
+    width: 100% !important;
+    height: 13px !important;
+    margin: 0 !important;
+    accent-color: #00bfff;
+}
+
+select {
+    width: 100% !important;
+    height: 29px !important;
+
+    padding: 4px 5px !important;
+
+    background: #102337 !important;
+    color: white !important;
+
+    border: 1px solid #31546a !important;
+    border-radius: 5px !important;
+
+    font-size: 9px !important;
+}
+
+.power-button,
+.scan-button,
+.reset-button {
+    width: 100% !important;
+    height: 29px !important;
+
+    margin: 0 !important;
+    padding: 5px !important;
+
+    border: none !important;
+    border-radius: 5px !important;
+
+    color: white !important;
+    font-size: 9px !important;
+    font-weight: bold !important;
+    cursor: pointer;
+}
+
+.power-button {
+    background: #7f1d1d !important;
+}
+
+.power-button.on {
+    background: #15803d !important;
+    box-shadow: 0 0 8px #35d07f;
+}
+
+.scan-button {
+    background: #087ea4 !important;
+}
+
+.reset-button {
+    background: #555 !important;
+}
+
+/* =========================
+   MEASUREMENT STRIP
+   ========================= */
+
+.measurement-strip {
+    width: 100% !important;
+
+    margin-top: 7px !important;
+    padding: 7px !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 6px !important;
+}
+
+.measurement-item {
+    min-height: 34px;
+
+    padding: 5px 8px;
+
+    background: #07111f;
+    border: 1px solid #17354a;
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.measurement-item span {
+    color: #8db7cc;
+    font-size: 8px;
+}
+
+.measurement-item strong {
+    color: #73d8ff;
+    font-size: 11px;
+}
+
+/* =========================
+   FOOTER
+   ========================= */
+
+footer {
+    padding: 4px;
+    text-align: center;
+    color: #6f9aad;
+    font-size: 8px;
+}
+
+/* =========================================================
+   LAPTOP HEIGHTS
+   ========================================================= */
+
+/* Standard 1366x768 / 1920x1080 browser viewport */
+@media (max-height: 820px) and (min-width: 1000px) {
+
+    .lab-header,
+    header {
+        height: 52px !important;
+        min-height: 52px !important;
+    }
+
+    .xrd-container,
+    main.xrd-container {
+        padding-top: 6px !important;
+        padding-bottom: 4px !important;
+    }
+
+    .top-row {
+        height: 425px !important;
+        min-height: 425px !important;
+    }
+
+    .top-row>.panel,
+    .instrument-panel,
+    .spectrum-panel {
+        height: 425px !important;
+        min-height: 425px !important;
+    }
+
+    .instrument-photo {
+        height: 112px !important;
+        min-height: 112px !important;
+        max-height: 112px !important;
+    }
+
+    .instrument {
+        height: 195px !important;
+        min-height: 195px !important;
+        max-height: 195px !important;
+    }
+
+    #xrdCanvas,
+    .spectrum-panel>#xrdCanvas {
+        height: 355px !important;
+    }
+
+    .control-panel {
+        margin-top: 6px !important;
+    }
+
+    .control-card {
+        min-height: 59px !important;
+    }
+
+    .measurement-strip {
+        margin-top: 5px !important;
+    }
+
+    footer {
+        display: none;
+    }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) and (min-width: 751px) {
+
+    .top-row {
+        grid-template-columns: 40% 60% !important;
+    }
+
+    .controls-grid {
+        grid-template-columns: repeat(5, 1fr) !important;
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 750px) {
+
+    .lab-header,
+    header {
+        height: auto !important;
+        min-height: 56px !important;
+    }
+
+    .header-left h1,
+    header h1 {
+        font-size: 17px !important;
+    }
+
+    .header-left p,
+    header p {
+        display: none !important;
+    }
+
+    .top-row {
+        grid-template-columns: 1fr !important;
+        height: auto !important;
+        min-height: 0 !important;
+    }
+
+    .top-row>.panel,
+    .instrument-panel,
+    .spectrum-panel {
+        height: auto !important;
+        min-height: 0 !important;
+    }
+
+    .instrument-photo {
+        height: 120px !important;
+        min-height: 120px !important;
+        max-height: 120px !important;
+    }
+
+    .instrument {
+        height: 170px !important;
+        min-height: 170px !important;
+        max-height: 170px !important;
+    }
+
+    #xrdCanvas,
+    .spectrum-panel>#xrdCanvas {
+        height: 270px !important;
+    }
+
+    .controls-grid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .measurement-strip {
+        grid-template-columns: 1fr 1fr !important;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .controls-grid,
+    .measurement-strip {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+/* =========================
+   STATUS REMOVED FROM HTML
+   ========================= */
+
+.instrument-status,
+#instrumentStatus,
+#scanStatus,
+.status-message {
+    display: none !important;
+}
+
+/* =========================
+   USE THE LOWER SCREEN AREA
+   ========================= */
+
+@media (min-width: 1000px) and (max-height: 820px) {
+
+    .xrd-container,
+    main.xrd-container {
+        padding-top: 5px !important;
+        padding-bottom: 2px !important;
+    }
+
+    .top-row {
+        height: 425px !important;
+        min-height: 425px !important;
+    }
+
+    .top-row>.panel,
+    .instrument-panel,
+    .spectrum-panel {
+        height: 425px !important;
+        min-height: 425px !important;
+    }
+
+    .instrument-photo {
+        height: 112px !important;
+        min-height: 112px !important;
+        max-height: 112px !important;
+    }
+
+    .instrument {
+        height: 195px !important;
+        min-height: 195px !important;
+        max-height: 195px !important;
+    }
+
+    #xrdCanvas,
+    .spectrum-panel>#xrdCanvas {
+        height: 355px !important;
+    }
+
+    .control-panel {
+        margin-top: 5px !important;
+        padding: 7px !important;
+    }
+
+    .control-card {
+        min-height: 57px !important;
+    }
+
+    .measurement-strip {
+        margin-top: 4px !important;
+    }
+
+    footer {
+        display: none !important;
+    }
+}

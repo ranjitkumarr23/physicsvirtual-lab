@@ -1,5 +1,3 @@
-document.getElementById("electronBtn").addEventListener("click", function () {
-
-    alert("Electron Diffraction Module Coming Soon!");
-
-});
+function openExperiment(page) {
+    window.location.href = "pages/" + page;
+}

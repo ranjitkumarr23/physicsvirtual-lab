@@ -1,0 +1,872 @@
+/* =========================================================
+   MICROWAVE VIRTUAL LAB — SINGLE SCREEN LAYOUT
+   Architecture:
+   LEFT  = Microwave apparatus / bench
+   RIGHT = CRO / standing-wave result
+   BOTTOM = Controls + measurement + dielectric calculation
+
+   IMPORTANT:
+   - Existing microwave.js IDs/classes are preserved.
+   - No JavaScript changes are required.
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #07111f;
+    color: #eaf7ff;
+    overflow-x: hidden;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+header {
+    height: 58px;
+    min-height: 58px;
+
+    padding: 6px 22px !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    background: #0d1b2e;
+    border-bottom: 1px solid #24536e;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.05;
+}
+
+header p {
+    margin: 3px 0 0;
+    color: #91bfd5;
+    font-size: 10px;
+}
+
+/* Home button accidentally placed in <head> in the latest HTML.
+   Hide it here; put the navigation button in <body> later if desired. */
+head .home-button {
+    display: none !important;
+}
+
+/* =========================================================
+   MAIN GRID
+   ========================================================= */
+
+main {
+    width: 100%;
+    max-width: 1450px;
+    margin: 0 auto;
+    padding: 8px 14px 6px;
+
+    display: grid;
+
+    grid-template-columns: 40% 60%;
+    grid-template-rows: 320px auto;
+
+    gap: 8px;
+}
+
+/* The existing HTML contains:
+   bench-section
+   cro-section -> cro + controls
+
+   display: contents lets us place CRO and Controls directly
+   into the main grid without changing JS or HTML structure.
+ */
+.cro-section {
+    display: contents !important;
+}
+
+/* =========================================================
+   LEFT — MICROWAVE APPARATUS
+   ========================================================= */
+
+.bench-section {
+    grid-column: 1;
+    grid-row: 1;
+
+    width: 100%;
+    height: 320px;
+    min-width: 0;
+    min-height: 0;
+
+    padding: 10px !important;
+
+    background: #0d1b2e;
+    border: 1px solid #24536e;
+    border-radius: 9px;
+
+    overflow: hidden !important;
+}
+
+.bench-section>h2 {
+    margin: 0 0 7px;
+    color: #73d8ff;
+    font-size: 15px;
+}
+
+/* Compact the original long horizontal bench */
+.bench {
+    width: 100%;
+    min-width: 0 !important;
+
+    height: 280px;
+
+    padding: 5px !important;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+
+    gap: 5px;
+
+    background: #07111f;
+    border: 1px solid #17384e;
+    border-radius: 7px;
+
+    overflow: hidden !important;
+}
+
+/* Individual apparatus blocks */
+.component {
+    min-width: 88px !important;
+    width: 88px;
+    min-height: 105px !important;
+    height: 105px;
+
+    padding: 7px !important;
+
+    background: #172b40;
+    border: 1px solid #365a73;
+    border-radius: 7px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+}
+
+.component h3 {
+    margin: 2px 0;
+    font-size: 10px;
+    line-height: 1.1;
+}
+
+.component p {
+    margin: 4px 0;
+    color: #a9c8d9;
+    font-size: 8px;
+    line-height: 1.2;
+}
+
+.component-icon {
+    margin-bottom: 3px;
+    font-size: 24px;
+}
+
+/* Microwave path arrows */
+.waveguide {
+    min-width: 18px;
+    width: 18px;
+
+    color: #58c7ff;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Klystron status */
+.status {
+    width: 60px;
+
+    margin-top: 5px;
+    padding: 4px 3px;
+
+    background: #07101c;
+    border-radius: 4px;
+
+    color: #ff6b6b;
+    font-size: 8px;
+    font-weight: bold;
+}
+
+.status.on {
+    color: #58e68b;
+    box-shadow: 0 0 7px rgba(88, 230, 139, 0.35);
+}
+
+/* Attenuator */
+#attenuator {
+    min-width: 96px !important;
+    width: 96px;
+}
+
+#attenuator h3 {
+    font-size: 9px;
+}
+
+.component input[type="range"] {
+    width: 90%;
+    margin: 5px 0;
+}
+
+.component span {
+    color: #73d8ff;
+    font-size: 9px;
+}
+
+/* Frequency meter */
+.display {
+    width: 100%;
+
+    margin-top: 5px;
+    padding: 6px 3px;
+
+    background: #07101c;
+    border: 1px solid #4c6477;
+    border-radius: 4px;
+
+    color: #70ffb0;
+    font-family: monospace;
+    font-size: 10px;
+}
+
+/* Slotted waveguide */
+.slotted {
+    min-width: 118px !important;
+    width: 118px;
+}
+
+.slot-track {
+    position: relative;
+
+    width: 100%;
+    height: 23px;
+
+    margin-top: 6px;
+
+    background:
+        repeating-linear-gradient(90deg,
+            #101a27 0px,
+            #101a27 9px,
+            #1e3548 10px,
+            #101a27 11px);
+
+    border: 1px solid #60758c;
+    border-radius: 3px;
+}
+
+.probe {
+    position: absolute;
+
+    width: 4px;
+    height: 20px;
+
+    top: 1px;
+    left: 0;
+
+    background: #ffcf4a;
+    box-shadow: 0 0 7px #ffcf4a;
+}
+
+.probe-position {
+    margin-top: 5px;
+    color: #b8d4e2;
+    font-size: 8px;
+}
+
+.probe-position span {
+    color: #73d8ff;
+}
+
+/* Dielectric sample */
+.sample {
+    width: 100%;
+
+    margin-top: 6px;
+    padding: 8px 3px;
+
+    background: #07101c;
+    border: 1px solid #25465d;
+    border-radius: 5px;
+
+    color: #73d8ff;
+    font-size: 9px;
+}
+
+/* Short circuit */
+.short-circuit {
+    color: #d0d0d0;
+    font-size: 22px;
+    line-height: 0.8;
+}
+
+/* =========================================================
+   RIGHT — CRO / RESULT
+   ========================================================= */
+
+.cro {
+    grid-column: 2;
+    grid-row: 1;
+
+    width: 100%;
+    height: 320px;
+    min-width: 0;
+    min-height: 0;
+
+    padding: 10px;
+
+    background: #0d1b2e;
+    border: 1px solid #24536e;
+    border-radius: 9px;
+
+    overflow: hidden;
+}
+
+.cro h2 {
+    height: 22px;
+
+    margin: 0 0 5px;
+
+    color: #73d8ff;
+    font-size: 15px;
+}
+
+#croCanvas {
+    display: block;
+
+    width: 100% !important;
+    height: 270px !important;
+
+    background: #02080f;
+    border: 2px solid #34576d;
+    border-radius: 6px;
+}
+
+/* =========================================================
+   BOTTOM — CONTROLS
+   ========================================================= */
+
+.controls {
+    grid-column: 1 / 3;
+    grid-row: 2;
+
+    width: 100%;
+
+    padding: 6px !important;
+
+    background: #0d1b2e;
+    border: 1px solid #24536e;
+    border-radius: 9px;
+
+    display: grid;
+
+    grid-template-columns:
+        0.85fr 1.15fr 1.15fr 1.15fr 1.15fr 1.15fr 1.15fr 0.85fr;
+
+    grid-auto-rows: auto;
+
+    gap: 6px;
+    align-items: stretch;
+}
+
+.controls>h2 {
+    grid-column: 1 / -1;
+
+    height: 18px;
+
+    margin: 0;
+
+    color: #73d8ff;
+    font-size: 14px;
+}
+
+/* All direct controls start compactly */
+.controls>#powerButton {
+    grid-column: auto;
+    grid-row: auto;
+}
+
+/* =========================================================
+   CONTROL GROUPS
+   ========================================================= */
+
+.control-group {
+    min-width: 0;
+
+    margin: 0 !important;
+    padding: 6px;
+
+    background: #07111f;
+    border: 1px solid #17384e;
+    border-radius: 6px;
+}
+
+.control-group label {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #b9d9ef;
+    font-size: 9px;
+}
+
+.control-group input[type="range"] {
+    width: 100%;
+    height: 13px;
+    margin: 0;
+    accent-color: #42c8f5;
+}
+
+.control-group span {
+    display: inline-block;
+
+    margin-top: 3px;
+
+    color: #73d8ff;
+    font-size: 9px;
+}
+
+.control-group select,
+.controls select {
+    width: 100%;
+    height: 28px;
+
+    padding: 4px 6px;
+
+    background: #102337;
+    color: white;
+
+    border: 1px solid #31546a;
+    border-radius: 5px;
+
+    font-size: 9px;
+}
+
+/* Number input for sample thickness */
+#sampleThickness {
+    width: 75%;
+    height: 27px;
+
+    padding: 3px 5px;
+
+    background: #102337;
+    color: white;
+
+    border: 1px solid #31546a;
+    border-radius: 5px;
+
+    font-size: 9px;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+button {
+    min-height: 27px;
+
+    padding: 4px 6px;
+
+    border: none;
+    border-radius: 5px;
+
+    background: #168fd0;
+    color: white;
+
+    font-size: 9px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1da9ef;
+}
+
+button.power-on {
+    background: #279b62;
+}
+
+#powerButton {
+    background: #8c2222;
+}
+
+#powerButton.power-on {
+    background: #279b62;
+}
+
+#resetButton {
+    background: #555;
+}
+
+/* =========================================================
+   MEASUREMENT BUTTONS
+   ========================================================= */
+
+.measurement-controls {
+    min-width: 0;
+
+    display: flex;
+    gap: 5px;
+
+    padding: 6px;
+
+    background: #07111f;
+    border: 1px solid #17384e;
+    border-radius: 6px;
+}
+
+.measurement-controls button {
+    flex: 1;
+    font-size: 8px;
+}
+
+/* Measurement readouts */
+.measurement-display {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+
+    padding: 6px;
+
+    background: #07111f;
+    border: 1px solid #17384e;
+    border-radius: 6px;
+
+    color: #a9c8d9;
+    font-size: 8px;
+}
+
+.measurement-display span {
+    color: #73d8ff;
+    font-weight: bold;
+}
+
+/* =========================================================
+   CALCULATION PANEL
+   ========================================================= */
+
+.calculation-panel {
+    grid-column: 1 / -1;
+
+    min-width: 0;
+
+    padding: 5px 6px;
+
+    background: #07111f;
+    border: 1px solid #24536e;
+    border-radius: 6px;
+
+    display: grid;
+
+    grid-template-columns: auto 130px 1fr;
+    grid-template-rows: 27px auto;
+    gap: 5px;
+    align-items: center;
+}
+
+.calculation-panel h3 {
+    grid-column: 1;
+    grid-row: 1;
+
+    margin: 0;
+
+    color: #73d8ff;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.calculation-panel>button {
+    grid-column: 2;
+    grid-row: 1;
+    width: 130px;
+    height: 27px;
+}
+
+.calculation-results {
+    grid-column: 1 / -1;
+    grid-row: 2;
+
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 5px;
+}
+
+.calculation-results>div {
+    padding: 4px 5px;
+
+    background: #0d1b2e;
+    border: 1px solid #17384e;
+    border-radius: 5px;
+
+    color: #a9c8d9;
+    font-size: 8px;
+    text-align: center;
+}
+
+.calculation-results span,
+.calculation-results strong {
+    color: #73d8ff;
+    font-size: 10px;
+}
+
+#calculationStatus {
+    grid-column: 1 / -1;
+
+    min-height: 0;
+
+    color: #8db7cc;
+    font-size: 8px;
+}
+
+/* =========================================================
+   RESET POSITION
+   ========================================================= */
+
+#resetButton {
+    align-self: stretch;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+    display: none;
+}
+
+/* =========================================================
+   SHORT LAPTOP SCREENS
+   ========================================================= */
+
+@media (min-width: 1000px) and (max-height: 820px) {
+
+    header {
+        height: 50px;
+        min-height: 50px;
+    }
+
+    header h1 {
+        font-size: 20px;
+    }
+
+    main {
+        padding: 5px 10px 4px;
+
+        grid-template-rows: 300px auto;
+
+        gap: 6px;
+    }
+
+    .bench-section,
+    .cro {
+        height: 270px;
+    }
+
+    .bench {
+        height: 300px;
+    }
+
+    #croCanvas {
+        height: 245px !important;
+    }
+
+    .component {
+        min-height: 92px !important;
+        height: 92px;
+    }
+
+    .slotted {
+        min-width: 105px !important;
+        width: 105px;
+    }
+
+    .control-group {
+        padding: 5px;
+    }
+
+    .calculation-panel {
+        padding: 5px;
+    }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+
+    .bench-section {
+        grid-column: 1;
+        grid-row: 1;
+        height: 350px;
+    }
+
+    .cro {
+        grid-column: 1;
+        grid-row: 2;
+        height: 350px;
+    }
+
+    .controls {
+        grid-column: 1;
+        grid-row: 3;
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    #croCanvas {
+        height: 295px !important;
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    header {
+        height: auto;
+        min-height: 52px;
+        padding: 7px 10px !important;
+    }
+
+    header h1 {
+        font-size: 18px;
+    }
+
+    header p {
+        font-size: 9px;
+    }
+
+    main {
+        padding: 6px;
+    }
+
+    .bench-section,
+    .cro {
+        height: auto;
+        min-height: 300px;
+    }
+
+    .bench {
+        height: 270px;
+    }
+
+    .controls {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .calculation-results {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #croCanvas {
+        height: 260px !important;
+    }
+}
+
+
+/* =========================================================
+   FINAL SINGLE-SCREEN TUNING — CALCULATION VISIBLE
+   ========================================================= */
+
+@media (min-width: 1001px) {
+
+    main {
+        grid-template-rows: 320px auto !important;
+    }
+
+    .bench-section,
+    .cro {
+        height: 320px !important;
+    }
+
+    .bench {
+        height: 280px !important;
+    }
+
+    #croCanvas {
+        height: 270px !important;
+    }
+
+    .controls {
+        padding: 5px !important;
+        gap: 5px !important;
+    }
+
+    .controls>h2 {
+        height: 16px !important;
+        font-size: 13px !important;
+    }
+
+    .control-group,
+    .measurement-controls,
+    .measurement-display {
+        padding: 4px !important;
+    }
+
+    .control-group label {
+        margin-bottom: 2px !important;
+        font-size: 8px !important;
+    }
+
+    .calculation-panel {
+        padding: 4px 6px !important;
+        grid-template-columns: auto 125px 1fr !important;
+        grid-template-rows: 25px auto !important;
+        gap: 4px !important;
+    }
+
+    .calculation-panel>button {
+        width: 125px !important;
+        height: 25px !important;
+    }
+
+    .calculation-results>div {
+        min-height: 28px !important;
+        padding: 4px !important;
+    }
+
+    .calculation-results span,
+    .calculation-results strong {
+        font-size: 10px !important;
+    }
+
+    #calculationStatus {
+        display: none !important;
+    }
+}

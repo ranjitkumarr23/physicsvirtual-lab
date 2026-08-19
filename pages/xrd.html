@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X-Ray Diffraction | Advanced Physics Lab</title>
+    <link rel="stylesheet" href="../css/xrd.css">
+</head>
+
+<body>
+
+    <header class="lab-header">
+        <div class="header-left">
+            <button class="home-button" onclick="window.location.href='../index.html'">
+                ← Advanced Physics Lab
+            </button>
+            <div>
+                <h1>X-Ray Diffraction</h1>
+                <p>PHYWE XR 4.0 Experimental Simulation</p>
+            </div>
+        </div>
+
+        <div class="status">
+            <span class="status-light"></span>
+            <span>LAB READY</span>
+        </div>
+    </header>
+
+    <main class="xrd-container">
+
+        <!-- =========================================
+         TOP: APPARATUS + SPECTRUM
+         ========================================= -->
+        <section class="top-row">
+
+            <section class="instrument-panel panel">
+                <div class="panel-heading">
+                    <h2>PHYWE XR 4.0 X-Ray Unit</h2>
+                    <span id="xrayStatus">X-Ray OFF</span>
+                </div>
+
+                <!--
+                If you have a real XRD apparatus photograph,
+                place it at ../images/xrd.jpeg.
+                The schematic remains available below as the
+                interactive detector visualization.
+            -->
+                <div class="instrument-photo" id="instrumentPhoto">
+                    <img src="../images/xrd.jpeg" alt="PHYWE XR 4.0 X-Ray Diffraction Unit"
+                        onerror="this.parentElement.classList.add('no-photo'); this.style.display='none';">
+                    <div class="photo-placeholder">
+                        <strong>PHYWE XR 4.0</strong>
+                        <span>X-Ray Diffraction Unit</span>
+                    </div>
+                </div>
+
+                <!-- Interactive apparatus schematic.
+                 Keep the .detector element because xrd.js controls it. -->
+                <div class="instrument" id="instrumentDiagram">
+
+                    <div class="xray-tube">
+                        <div class="tube-label">Cu X-Ray Tube</div>
+                        <div class="beam"></div>
+                    </div>
+
+                    <div class="crystal">
+                        <div class="crystal-label">Crystal</div>
+                        <div class="crystal-block"></div>
+                    </div>
+
+                    <div class="detector">
+                        <div class="detector-label">GM Detector</div>
+                        <div class="detector-head"></div>
+                    </div>
+
+                    <div class="axis-label">1 : 2 Coupling</div>
+                </div>
+
+                <div class="instrument-status">
+                    <span id="instrumentMessage">Turn X-Ray ON to begin.</span>
+                </div>
+            </section>
+
+
+            <section class="spectrum-panel panel">
+
+                <div class="spectrum-header">
+                    <h2>X-Ray Spectrum</h2>
+                    <span id="scanStatus">Ready</span>
+                </div>
+
+                <div class="spectrum-container">
+                    <canvas id="xrdCanvas"></canvas>
+                </div>
+
+                <div class="spectrum-readout">
+                    <div>
+                        <span>Angle</span>
+                        <strong id="angleReadout">0.0°</strong>
+                    </div>
+
+                    <div>
+                        <span>Intensity</span>
+                        <strong id="intensityReadout">0</strong>
+                        <small>counts/s</small>
+                    </div>
+                </div>
+
+            </section>
+
+        </section>
+
+
+        <!-- =========================================
+         CONTROLS
+         ========================================= -->
+        <section class="control-panel panel">
+
+            <div class="section-title">
+                <h2>Controls</h2>
+                <span>Set the X-ray parameters and start the measurement</span>
+            </div>
+
+            <div class="controls-grid">
+
+                <div class="control-card power-card">
+                    <label>Power</label>
+                    <button id="xrayPowerButton" class="power-button">
+                        X-RAY OFF
+                    </button>
+                </div>
+
+                <div class="control-card">
+                    <label for="anodeVoltage">Anode Voltage</label>
+                    <div class="value-row">
+                        <strong id="voltageValue">35</strong>
+                        <span>kV</span>
+                    </div>
+                    <input type="range" id="anodeVoltage" min="10" max="35" step="1" value="35">
+                </div>
+
+                <div class="control-card">
+                    <label for="anodeCurrent">Anode Current</label>
+                    <div class="value-row">
+                        <strong id="currentValue">1.0</strong>
+                        <span>mA</span>
+                    </div>
+                    <input type="range" id="anodeCurrent" min="0.1" max="1.0" step="0.1" value="1.0">
+                </div>
+
+                <div class="control-card">
+                    <label for="crystalSelect">Analyzer Crystal</label>
+                    <select id="crystalSelect">
+                        <option value="LiF">LiF</option>
+                        <option value="KBr">KBr</option>
+                        <option value="NaCl100">NaCl [100]</option>
+                        <option value="NaCl110">NaCl [110]</option>
+                        <option value="NaCl111">NaCl [111]</option>
+                    </select>
+                </div>
+
+                <div class="control-card">
+                    <label for="couplingSelect">Coupling</label>
+                    <select id="couplingSelect">
+                        <option value="1:2">1 : 2</option>
+                    </select>
+                </div>
+
+                <div class="control-card">
+                    <label for="measurementMode">Measurement Mode</label>
+                    <select id="measurementMode">
+                        <option value="scan">Continuous Scan</option>
+                        <option value="fixed">Fixed Angle</option>
+                    </select>
+                </div>
+
+                <div class="control-card">
+                    <label for="filterSelect">X-Ray Filter</label>
+                    <select id="filterSelect">
+                        <option value="none">No Filter</option>
+                        <option value="ni">Nickel (Ni) Filter</option>
+                    </select>
+                </div>
+
+                <div class="control-card fixed-angle-control" id="fixedAngleControl" style="display:none;">
+
+                    <label for="fixedAngle">Crystal Angle θ</label>
+
+                    <div class="value-row">
+                        <strong id="fixedAngleValue">15.0</strong>
+                        <span>°</span>
+                    </div>
+
+                    <input type="range" id="fixedAngle" min="4" max="55" step="0.1" value="15.0">
+                </div>
+
+                <div class="control-card">
+                    <label for="gateTime">Gate Time</label>
+                    <select id="gateTime">
+                        <option value="2">2 s</option>
+                    </select>
+                </div>
+
+                <div class="control-card action-card">
+                    <label>Measurement</label>
+                    <button id="scanButton" class="scan-button">
+                        START SCAN
+                    </button>
+                </div>
+
+                <div class="control-card action-card">
+                    <label>Experiment</label>
+                    <button id="resetButton" class="reset-button">
+                        RESET
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+    <footer>
+        Advanced Physics Lab | Department of Physics
+    </footer>
+
+    <script src="../js/xrd.js"></script>
+
+    <script>
+        /*
+         * Small display-only helpers.
+         * They do not modify the XRD simulation logic.
+         */
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const mode = document.getElementById("measurementMode");
+            const crystal = document.getElementById("crystalSelect");
+
+            const modeDisplay =
+                document.getElementById("measurementModeDisplay");
+
+            const crystalDisplay =
+                document.getElementById("measurementCrystalDisplay");
+
+            if (mode) {
+                mode.addEventListener("change", function () {
+                    modeDisplay.textContent =
+                        this.value === "fixed"
+                            ? "Fixed Angle"
+                            : "Continuous";
+                });
+            }
+
+            if (crystal) {
+                crystal.addEventListener("change", function () {
+                    crystalDisplay.textContent = this.value;
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>

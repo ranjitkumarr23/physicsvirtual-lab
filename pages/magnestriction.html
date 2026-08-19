@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Magnetostriction - Michelson Interferometer
+    </title>
+    <button class="home-button" onclick="window.location.href='../index.html'">
+        ← Virtual Lab Home
+    </button>
+
+    <link rel="stylesheet" href="../css/magestrostriction.css">
+</head>
+
+<body>
+
+    <div class="experiment">
+
+        <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+        <header class="header">
+
+            <h1>
+                Magnetostriction — Michelson Interferometer
+            </h1>
+
+            <div class="subtitle">
+                PHYWE Experimental Simulation
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+         MAIN EXPERIMENT
+    ====================================================== -->
+
+        <main class="main-layout">
+
+
+            <!-- =================================================
+             ACTUAL PHYWE SETUP
+        ================================================== -->
+
+            <section class="setup-panel">
+
+                <h2>
+                    PHYWE Experimental Setup
+                </h2>
+
+                <div class="setup-image-box">
+
+                    <!--
+                    Replace the image path with the location
+                    of your actual setup photograph.
+                -->
+
+                    <img src="../images/magnostriction.jpeg" alt="Magnetostriction Michelson Interferometer Setup"
+                        class="setup-image">
+
+                </div>
+
+
+                <div class="optical-path">
+
+                    Laser
+
+                    <span>→</span>
+
+                    Beam Splitter
+
+                    <span>→</span>
+
+                    Michelson Interferometer
+
+                    <span>→</span>
+
+                    Detector
+
+                </div>
+
+
+                <div class="physics-chain">
+
+                    Magnetic Field
+
+                    <span>→</span>
+
+                    Specimen Length Change
+
+                    <span>→</span>
+
+                    Optical Path Difference
+
+                    <span>→</span>
+
+                    Fringe Movement
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+             MICHELSON INTERFERENCE
+        ================================================== -->
+
+            <section class="simulation-panel">
+
+                <h2>
+                    Michelson Interference Pattern
+                </h2>
+
+
+                <div class="fringe-container">
+
+                    <canvas id="fringeCanvas" width="800" height="480">
+                    </canvas>
+
+
+                    <div class="laser-status" id="laserStatus">
+
+                        LASER OFF
+
+                    </div>
+
+                </div>
+
+
+                <div class="fringe-message" id="fringeMessage">
+
+                    Turn ON the laser to observe interference fringes.
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+             CONTROLS
+        ================================================== -->
+
+            <section class="controls-panel">
+
+                <h2>
+                    Controls
+                </h2>
+
+
+                <!-- LASER -->
+
+                <div class="control-block">
+
+                    <label>
+                        Laser
+                    </label>
+
+                    <button id="laserButton" class="control-button">
+
+                        LASER OFF
+
+                    </button>
+
+                </div>
+
+
+                <!-- MATERIAL -->
+
+                <div class="control-block">
+
+                    <label for="materialSelect">
+                        Magnetostrictive Material
+                    </label>
+
+                    <select id="materialSelect">
+
+                        <option value="iron">
+                            Iron
+                        </option>
+
+                        <option value="nickel">
+                            Nickel
+                        </option>
+
+                        <option value="copper">
+                            Copper — No Magnetostriction
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- CURRENT -->
+
+                <div class="control-block current-block">
+
+                    <label for="currentSlider">
+
+                        Coil Current
+
+                        <span id="currentValue">
+                            0.00 A
+                        </span>
+
+                    </label>
+
+                    <input type="range" id="currentSlider" min="0" max="5" step="0.01" value="0">
+
+                </div>
+
+
+                <!-- MAGNETIC FIELD -->
+
+                <div class="parameter-card">
+
+                    <div class="parameter-title">
+                        Magnetic Field
+                    </div>
+
+                    <div class="parameter-value">
+
+                        <span id="fieldValue">
+                            0.000
+                        </span>
+
+                        T
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+             MEASUREMENT
+        ================================================== -->
+
+            <section class="measurement-panel">
+
+                <h2>
+                    Measurement
+                </h2>
+
+
+                <div class="measurement-grid">
+
+
+                    <!-- MATERIAL -->
+
+                    <div class="measurement-card">
+
+                        <div class="measurement-title">
+                            Material
+                        </div>
+
+                        <div id="materialValue" class="measurement-value">
+
+                            Iron
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FRINGE COUNT -->
+
+                    <div class="measurement-card">
+
+                        <div class="measurement-title">
+                            Fringe Count
+                        </div>
+
+                        <div id="fringeCount" class="measurement-value">
+
+                            0
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- LENGTH CHANGE -->
+
+                    <div class="measurement-card">
+
+                        <div class="measurement-title">
+                            Length Change ΔL
+                        </div>
+
+                        <div id="lengthChange" class="measurement-value">
+
+                            0.000 nm
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MAGNETOSTRICTION -->
+
+                    <div class="measurement-card">
+
+                        <div class="measurement-title">
+                            Magnetostriction λm
+                        </div>
+
+                        <div id="magnetostrictionValue" class="measurement-value">
+
+                            0.00 × 10⁻⁶
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SPECIMEN LENGTH -->
+
+                    <div class="measurement-card">
+
+                        <div class="measurement-title">
+                            Specimen Length
+                        </div>
+
+                        <div class="measurement-value">
+
+                            50 mm
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- WAVELENGTH -->
+
+                    <div class="measurement-card">
+
+                        <div class="measurement-title">
+                            Laser Wavelength
+                        </div>
+
+                        <div class="measurement-value">
+
+                            632.8 nm
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <div id="measurementMessage" class="measurement-message">
+
+                    Select a material and increase the current.
+
+                </div>
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+    <script src="../js/magestrostriction.js"></script>
+
+</body>
+
+</html>

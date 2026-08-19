@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron Diffraction | Advanced Physics Lab</title>
+    <link rel="stylesheet" href="../css/electron.css">
+</head>
+
+<body>
+
+    <header class="lab-header">
+        <div class="header-left">
+            <button class="home-button" onclick="window.location.href='../index.html'">
+                ← Advanced Physics Lab
+            </button>
+            <div>
+                <h1>Electron Diffraction</h1>
+                <p>Advanced Physics Laboratory</p>
+            </div>
+        </div>
+
+        <div class="status">
+            <span class="status-light"></span>
+            <span>LAB READY</span>
+        </div>
+    </header>
+
+    <main class="lab-container">
+
+        <!-- TOP: APPARATUS + RESULT -->
+        <section class="top-row">
+
+            <div class="apparatus-panel panel">
+                <h2>Experimental Apparatus</h2>
+
+                <div class="apparatus-image">
+                    <img src="../images/electron.jpeg" alt="PHYWE Electron Diffraction Apparatus"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+                    <div class="image-placeholder">
+                        <strong>PHYWE Electron Diffraction Apparatus</strong>
+                        <span>Experimental setup</span>
+                    </div>
+                </div>
+
+                <div class="apparatus-caption">
+                    PHYWE Electron Diffraction Apparatus
+                </div>
+            </div>
+
+            <div class="screen-panel panel">
+                <div class="panel-heading">
+                    <h2>Diffraction Pattern</h2>
+                    <span id="screenStatus">Power OFF</span>
+                </div>
+
+                <div class="screen-container">
+                    <canvas id="diffractionCanvas"></canvas>
+                </div>
+
+                <div class="screen-info">
+                    <span>Electron diffraction pattern</span>
+                    <span>Screen diameter: 100 mm</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- CONTROLS -->
+        <section class="controls-panel panel">
+
+            <div class="section-title">
+                <h2>Instrument Controls</h2>
+                <span>Adjust parameters and observe the diffraction pattern</span>
+            </div>
+
+            <div class="controls-grid">
+
+                <div class="control-card power-control">
+                    <label>Power</label>
+                    <button id="powerButton" class="power-button">OFF</button>
+                </div>
+
+                <div class="control-card">
+                    <label for="voltageSlider">Accelerating Voltage</label>
+                    <div class="value-display">
+                        <span id="voltageValue">0.0</span> kV
+                    </div>
+                    <input type="range" id="voltageSlider" min="0" max="10" step="0.1" value="0">
+                </div>
+
+                <div class="control-card">
+                    <label for="brightnessSlider">Screen Brightness</label>
+                    <div class="value-display">
+                        <span id="brightnessValue">70</span> %
+                    </div>
+                    <input type="range" id="brightnessSlider" min="10" max="100" value="70">
+                </div>
+
+                <div class="control-card">
+                    <label for="focusSlider">Focus</label>
+                    <div class="value-display">
+                        <span id="focusValue">50</span>
+                    </div>
+                    <input type="range" id="focusSlider" min="0" max="100" value="50">
+                </div>
+
+                <div class="control-card reset-control">
+                    <label>Experiment</label>
+                    <button id="resetButton" class="reset-button">
+                        RESET EXPERIMENT
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- MEASUREMENTS -->
+        <section class="measurement-panel panel">
+
+            <div class="section-title">
+                <h2>Measurement & Live Physics</h2>
+                <span>Read values from the simulated experiment</span>
+            </div>
+
+            <div class="measurement-grid">
+
+                <div class="measurement-card">
+                    <span>Voltage</span>
+                    <strong id="readoutVoltage">0.00 kV</strong>
+                </div>
+
+                <div class="measurement-card">
+                    <span>Wavelength</span>
+                    <strong id="readoutWavelength">—</strong>
+                </div>
+
+                <div class="measurement-card">
+                    <span>Ring 1 Diameter</span>
+                    <strong id="readoutRing1">—</strong>
+                </div>
+
+                <div class="measurement-card">
+                    <span>Ring 2 Diameter</span>
+                    <strong id="readoutRing2">—</strong>
+                </div>
+
+            </div>
+
+            <div class="measurement-scale">
+                <div class="scale-title">Virtual screen calibration: 100 mm diameter</div>
+
+                <div class="scale-line">
+                    <span class="tick tick-0"></span>
+                    <span class="tick tick-25"></span>
+                    <span class="tick tick-50"></span>
+                    <span class="tick tick-75"></span>
+                    <span class="tick tick-100"></span>
+                </div>
+
+                <div class="scale-labels">
+                    <span>0 mm</span>
+                    <span>25 mm</span>
+                    <span>50 mm</span>
+                    <span>75 mm</span>
+                    <span>100 mm</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- BASIC INFORMATION -->
+        <section class="information-row">
+
+            <div class="info-box">
+                <h3>Objective</h3>
+                <p>
+                    To observe the diffraction of electrons by a polycrystalline
+                    graphite target and determine the wavelength of electrons.
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h3>Principle</h3>
+                <p>
+                    Electrons exhibit wave-like behaviour. Their wavelength is
+                    described by the de Broglie relation.
+                </p>
+                <div class="formula">λ = h / √(2meV)</div>
+            </div>
+
+            <div class="info-box">
+                <h3>Instrument</h3>
+                <p>PHYWE Electron Diffraction Apparatus</p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <nav class="experiment-navigation">
+        <button>Theory</button>
+        <button>Procedure</button>
+        <button>Observation</button>
+        <button>Calculation</button>
+        <button>Viva</button>
+    </nav>
+
+    <footer>
+        Advanced Physics Lab | Department of Physics
+    </footer>
+
+    <script src="../js/electron.js"></script>
+
+</body>
+
+</html>

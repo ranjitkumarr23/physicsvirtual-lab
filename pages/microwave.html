@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <button class="home-button" onclick="window.location.href='../index.html'">
+        ← Virtual Lab Home
+    </button>
+    <title>Virtual Microwave Bench</title>
+
+    <link rel="stylesheet" href="../css/microwave.css">
+
+</head>
+
+
+<body>
+
+    <header>
+
+        <h1>Physics Virtual Laboratory</h1>
+
+        <p>Microwave Dielectric Constant Experiment</p>
+
+    </header>
+
+
+    <main>
+
+        <!-- =====================================
+         MICROWAVE BENCH
+         ===================================== -->
+
+        <section class="bench-section">
+
+            <h2>Microwave Bench</h2>
+
+
+            <div class="bench">
+
+
+                <!-- KLYSTRON -->
+
+                <div class="component" id="klystron">
+
+                    <div class="component-icon">
+                        ⚡
+                    </div>
+
+                    <h3>Klystron</h3>
+
+                    <p>Microwave Source</p>
+
+                    <div class="status" id="klystronStatus">
+                        OFF
+                    </div>
+
+                </div>
+
+
+                <div class="waveguide">
+                    →
+                </div>
+
+
+                <!-- ISOLATOR -->
+
+                <div class="component" id="isolator">
+
+                    <h3>Isolator</h3>
+
+                    <p>One-way RF path</p>
+
+                </div>
+
+
+                <div class="waveguide">
+                    →
+                </div>
+
+
+                <!-- ATTENUATOR -->
+
+                <div class="component" id="attenuator">
+
+                    <h3>Variable</h3>
+
+                    <h3>Attenuator</h3>
+
+                    <input type="range" id="attenuatorSlider" min="0" max="100" value="50">
+
+                    <span id="attenuatorValue">
+                        50 %
+                    </span>
+
+                </div>
+
+
+                <div class="waveguide">
+                    →
+                </div>
+
+
+                <!-- FREQUENCY METER -->
+
+                <div class="component" id="frequencyMeter">
+
+                    <h3>Frequency</h3>
+
+                    <h3>Meter</h3>
+
+                    <div class="display" id="frequencyDisplay">
+
+                        9.50 GHz
+
+                    </div>
+
+                </div>
+
+
+                <div class="waveguide">
+                    →
+                </div>
+
+
+                <!-- SLOTTED WAVEGUIDE -->
+
+                <div class="component slotted" id="slottedSection">
+
+                    <h3>Slotted Waveguide</h3>
+
+                    <div class="slot-track">
+
+                        <div class="probe" id="probe">
+
+                        </div>
+
+                    </div>
+
+                    <div class="probe-position">
+
+                        Probe:
+                        <span id="probePosition">
+                            0.0
+                        </span>
+                        cm
+
+                    </div>
+
+                </div>
+
+
+                <div class="waveguide">
+                    →
+                </div>
+
+
+                <!-- DIELECTRIC CELL -->
+
+                <div class="component" id="dielectricCell">
+
+                    <h3>Dielectric Cell</h3>
+
+                    <div class="sample" id="sample">
+
+                        No Sample
+
+                    </div>
+
+                </div>
+
+
+                <div class="waveguide">
+                    →
+                </div>
+
+
+                <!-- SHORT CIRCUIT -->
+
+                <div class="component">
+
+                    <h3>Short</h3>
+
+                    <div class="short-circuit">
+                        │
+                        <br>
+                        ━━━
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+         CRO
+         ===================================== -->
+
+        <section class="cro-section">
+
+            <div class="cro">
+
+                <h2>C.R.O.</h2>
+
+                <canvas id="croCanvas" width="700" height="300">
+                </canvas>
+
+            </div>
+
+
+
+            <!-- =================================
+             CONTROLS
+             ================================= -->
+
+            <div class="controls">
+
+                <h2>Controls</h2>
+
+
+                <button id="powerButton">
+
+                    KLYSTRON OFF
+
+                </button>
+
+
+                <div class="control-group">
+
+                    <label>
+                        Frequency
+                    </label>
+
+                    <input type="range" id="frequencySlider" min="8" max="12" step="0.01" value="9.50">
+
+                    <span id="frequencyValue">
+
+                        9.50 GHz
+
+                    </span>
+
+                </div>
+
+
+
+                <div class="control-group">
+
+                    <label>
+                        Probe Position
+                    </label>
+
+                    <input type="range" id="probeSlider" min="0" max="20" step="0.1" value="0">
+
+                    <span id="probeValue">
+
+                        0.0 cm
+
+                    </span>
+
+                </div>
+
+                <div class="measurement-controls">
+
+                    <button id="markMinimumButton">
+                        MARK MINIMUM
+                    </button>
+
+                    <button id="saveReferenceButton">
+                        SAVE REFERENCE
+                    </button>
+
+                </div>
+
+                <div class="measurement-display">
+
+                    <div>
+                        Reference minimum DR:
+                        <span id="referenceMinimumValue">---</span>
+                    </div>
+
+                    <div>
+                        Current minimum:
+                        <span id="sampleMinimumValue">---</span>
+                    </div>
+
+                </div>
+
+
+
+                <div class="control-group">
+
+                    <label>
+                        Dielectric Sample
+                    </label>
+
+                    <select id="sampleSelect">
+
+                        <option value="none">
+                            No Sample
+                        </option>
+
+                        <option value="teflon">
+                            Teflon
+                        </option>
+
+                        <option value="perspex">
+                            Perspex
+                        </option>
+
+                        <option value="glass">
+                            Glass
+                        </option>
+
+                    </select>
+                    <div class="control-group">
+
+                        <label>
+                            Sample Thickness
+                        </label>
+
+                        <input type="number" id="sampleThickness" min="0.1" max="10" step="0.01" value="1.00">
+
+                        <span>cm</span>
+
+                    </div>
+
+                </div>
+                <div class="calculation-panel">
+
+                    <h3>Dielectric Constant Calculation</h3>
+
+                    <button id="calculateEpsilonButton" disabled>
+                        CALCULATE εr
+                    </button>
+
+                    <div class="calculation-results">
+
+                        <div>
+                            β =
+                            <span id="betaValue">---</span>
+                            mm⁻¹
+                        </div>
+
+                        <div>
+                            DR − D =
+                            <span id="shiftValue">---</span>
+                            cm
+                        </div>
+
+                        <div>
+                            β(lε + DR − D) =
+                            <span id="phaseValue">---</span>
+                        </div>
+
+                        <div>
+                            X =
+                            <span id="xValue">---</span>
+                        </div>
+
+                        <div>
+                            εr =
+                            <strong id="epsilonValue">---</strong>
+                        </div>
+
+                    </div>
+
+                    <div id="calculationStatus"></div>
+
+                </div>
+
+
+                <button id="resetButton">
+
+                    RESET
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <footer>
+
+        Physics Department Virtual Laboratory
+
+    </footer>
+
+
+    <script src="../js/microwave.js">
+    </script>
+
+</body>
+
+</html>

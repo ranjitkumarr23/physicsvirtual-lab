@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <button class="home-button" onclick="window.location.href='../index.html'">
+        ← Virtual Lab Home
+    </button>
+    <title>Four Probe Method - Energy Band Gap</title>
+
+    <link rel="stylesheet" href="../css/fourprobe.css">
+</head>
+
+<body>
+
+    <div class="experiment-container">
+
+        <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+        <header class="experiment-header">
+
+            <div class="header-title">
+                Four Probe Method
+            </div>
+
+            <div class="header-subtitle">
+                Measurement of Energy Band Gap of Semiconductor
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+         TOP: EQUIPMENT + GRAPH
+         ===================================================== -->
+
+        <section class="top-display">
+
+            <!-- EQUIPMENT -->
+
+            <div class="equipment-top">
+
+                <div class="section-title">
+                    PHYWE Four-Probe Experimental Setup
+                </div>
+
+                <div class="equipment-card">
+
+                    <img src="../images/fourprobe.jpeg" alt="PHYWE Four Probe Experimental Setup"
+                        class="equipment-image">
+
+                    <div class="equipment-flow">
+
+                        <span>Constant Current Source</span>
+
+                        <span class="arrow">→</span>
+
+                        <span>Four Probes</span>
+
+                        <span class="arrow">→</span>
+
+                        <span>Semiconductor</span>
+
+                        <span class="arrow">→</span>
+
+                        <span>Microvoltmeter</span>
+
+                        <span class="arrow">→</span>
+
+                        <span>PID Oven</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- GRAPH -->
+
+            <div class="graph-panel">
+
+                <div class="section-title">
+                    Temperature Measurement
+                </div>
+
+                <div class="graph-card">
+
+                    <canvas id="bandGapGraph"></canvas>
+
+                </div>
+
+                <div class="graph-axis-label">
+                    ln ρ &nbsp; vs &nbsp; 1000 / T
+                </div>
+
+                <div class="graph-status" id="graphStatus">
+
+                    No measurements recorded.
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+         CONTROLS
+         ===================================================== -->
+
+        <section class="controls-section">
+
+            <div class="section-title">
+                Experimental Controls
+            </div>
+
+
+            <div class="controls-grid">
+
+
+                <!-- MATERIAL -->
+
+                <div class="control-card">
+
+                    <div class="control-label">
+                        Semiconductor Sample
+                    </div>
+
+                    <select id="materialSelect" class="select-control">
+
+                        <option value="germanium">
+                            Germanium
+                        </option>
+
+                        <option value="silicon">
+                            Silicon
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- CURRENT -->
+
+                <div class="control-card">
+
+                    <div class="control-label">
+                        Constant Probe Current
+                    </div>
+
+                    <div class="slider-row">
+
+                        <input type="range" id="currentSlider" min="1" max="20" step="0.5" value="10">
+
+                        <span id="currentValue">
+                            10.0 mA
+                        </span>
+
+                    </div>
+
+                    <div class="constant-current-label">
+                        ● CONSTANT CURRENT
+                    </div>
+
+                </div>
+
+
+
+                <!-- OVEN -->
+
+                <div class="control-card oven-card">
+
+                    <div class="control-label">
+                        PID Controlled Oven
+                    </div>
+
+                    <div class="temperature-display">
+
+                        <span id="temperatureValue">
+                            28.0
+                        </span>
+
+                        <span>°C</span>
+
+                    </div>
+
+                    <div class="temperature-status" id="ovenStatus">
+
+                        Oven OFF
+
+                    </div>
+
+                    <div class="oven-buttons">
+
+                        <button id="startOvenButton" class="primary-button">
+
+                            START OVEN
+
+                        </button>
+
+                        <button id="startCoolingButton" class="secondary-button" disabled>
+
+                            START COOLING
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- VOLTAGE -->
+
+                <div class="control-card voltage-card">
+
+                    <div class="control-label">
+                        Inner Probe Voltage
+                    </div>
+
+                    <div class="large-reading">
+
+                        <span id="voltageValue">
+                            0.00
+                        </span>
+
+                        <span>mV</span>
+
+                    </div>
+
+                    <div class="reading-info">
+
+                        Voltage across inner probes
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- MEASURE -->
+
+                <div class="measure-control">
+
+                    <button id="measureButton" class="measure-button" disabled>
+
+                        MEASURE
+
+                    </button>
+
+                    <div id="measurementMessage" class="measurement-message">
+
+                        Set current and start the oven.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+         MEASUREMENT TABLE
+         ===================================================== -->
+
+        <section class="measurement-section">
+
+            <div class="measurement-heading-row">
+
+                <div class="section-title">
+                    Cooling Measurements
+                </div>
+
+                <div class="measurement-instruction">
+
+                    Keep current constant and record voltage during cooling.
+
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table id="measurementTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>S.No.</th>
+
+                            <th>T (°C)</th>
+
+                            <th>T (K)</th>
+
+                            <th>I (mA)</th>
+
+                            <th>V (mV)</th>
+
+                            <th>V / I</th>
+
+                            <th>ρ (Ω cm)</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="measurementBody">
+
+                        <!-- JavaScript adds rows -->
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+         CALCULATION
+         ===================================================== -->
+
+        <section class="calculation-section">
+
+            <div class="section-title">
+                Energy Band Gap
+            </div>
+
+
+            <div class="calculation-content">
+
+
+                <div class="result-card">
+
+                    <div class="result-label">
+                        Sample
+                    </div>
+
+                    <div class="result-value" id="resultMaterial">
+
+                        Germanium
+
+                    </div>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <div class="result-label">
+                        Slope
+                    </div>
+
+                    <div class="result-value" id="slopeValue">
+
+                        —
+
+                    </div>
+
+                </div>
+
+
+                <div class="result-card band-gap-card">
+
+                    <div class="result-label">
+                        Energy Band Gap
+                    </div>
+
+                    <div class="result-value highlight" id="bandGapValue">
+
+                        —
+
+                    </div>
+
+                    <div class="result-unit">
+                        eV
+                    </div>
+
+                </div>
+
+
+                <button id="calculateButton" class="calculate-button" disabled>
+
+                    CALCULATE Eg
+
+                </button>
+
+
+                <button id="resetButton" class="reset-button">
+
+                    RESET
+
+                </button>
+
+            </div>
+
+
+            <div id="calculationMessage" class="calculation-message">
+
+                Record measurements during cooling to calculate
+                the energy band gap.
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+         PRINCIPLE
+         ===================================================== -->
+
+        <section class="principle-section">
+
+            <div class="principle-flow">
+
+                <div class="principle-step">
+
+                    <strong>Constant Current</strong>
+
+                    <span>Outer probes</span>
+
+                </div>
+
+                <div class="principle-arrow">→</div>
+
+                <div class="principle-step">
+
+                    <strong>Measure Voltage</strong>
+
+                    <span>Inner probes</span>
+
+                </div>
+
+                <div class="principle-arrow">→</div>
+
+                <div class="principle-step">
+
+                    <strong>Calculate ρ</strong>
+
+                    <span>Resistivity</span>
+
+                </div>
+
+                <div class="principle-arrow">→</div>
+
+                <div class="principle-step">
+
+                    <strong>ln ρ vs 1000/T</strong>
+
+                    <span>Slope</span>
+
+                </div>
+
+                <div class="principle-arrow">→</div>
+
+                <div class="principle-step final">
+
+                    <strong>Eg</strong>
+
+                    <span>Energy Band Gap</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+        <footer class="experiment-footer">
+
+            Four Probe Method • Energy Band Gap Simulation
+
+        </footer>
+
+    </div>
+
+
+    <script src="../js/fourprobe.js"></script>
+
+</body>
+
+</html>

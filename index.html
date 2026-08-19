@@ -2,86 +2,93 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Physics Virtual Laboratory</title>
-
+    <title>Advanced Physics Lab</title>
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
-    <header>
-
-        <h1>Physics Virtual Laboratory</h1>
-
+    <header class="lab-header">
+        <h1>Advanced Physics Lab</h1>
         <p>Department of Physics</p>
 
+        <div class="people-section">
+            <div class="people-group">
+                <span class="label">Course Coordinators</span>
+                <span>Prof. Mayukh Pahari</span>
+                <span>Prof. J Mohanty</span>
+            </div>
+            <div class="people-group">
+                <span class="label">Technical Personnel</span>
+                <span>Mr. Ranjit Kumar — Sr. Technical Superintendent</span>
+                <span>Mr. Samresh — Technician</span>
+                <span>Mr. Vasudev Rao — Technician</span>
+            </div>
+        </div>
     </header>
 
-    <nav>
+    <main id="home">
+        <section class="intro">
+            <h2>Physics Experimental Simulations</h2>
+            <p>Interactive simulations for selected Advanced Physics Laboratory experiments. Select an experiment below
+                to begin.</p>
+        </section>
 
-        <a href="#">Home</a>
-        <a href="#">Theory</a>
-        <a href="#">Experiments</a>
-        <a href="#">About</a>
+        <section id="experiments" class="experiment-grid">
 
-    </nav>
+            <div class="card">
+                <div class="card-number">01</div>
+                <h2>Electron Diffraction</h2>
+                <p>Study electron diffraction and determine the de Broglie wavelength.</p>
+                <button onclick="openExperiment('electron.html')">Launch Experiment</button>
+            </div>
 
-    <main>
+            <div class="card">
+                <div class="card-number">02</div>
+                <h2>Microwave Test Bench</h2>
+                <p>Explore microwave generation, standing waves and experimental measurements.</p>
+                <button onclick="openExperiment('microwave.html')">Launch Experiment</button>
+            </div>
 
-        <div class="card">
+            <div class="card">
+                <div class="card-number">03</div>
+                <h2>X-Ray Diffraction</h2>
+                <p>Study crystal diffraction and determine structural parameters using XRD.</p>
+                <button onclick="openExperiment('xrd.html')">Launch Experiment</button>
+            </div>
 
-            <h2>Electron Diffraction</h2>
+            <div class="card">
+                <div class="card-number">04</div>
+                <h2>Zeeman Effect</h2>
+                <p>Observe normal and anomalous Zeeman splitting using the Fabry–Perot / CCD simulation.</p>
+                <button onclick="openExperiment('zeeman.html')">Launch Experiment</button>
+            </div>
 
-            <p>Virtual PHYWE Electron Diffraction Experiment</p>
+            <div class="card">
+                <div class="card-number">05</div>
+                <h2>Magnetostriction</h2>
+                <p>Study magnetostriction using a Michelson interferometer simulation.</p>
+                <button onclick="openExperiment('magnestriction.html')">Launch Experiment</button>
+            </div>
 
-            <button id="electronBtn">
+            <div class="card">
+                <div class="card-number">06</div>
+                <h2>Four Probe Method</h2>
+                <p>Determine the semiconductor energy band gap using temperature-dependent measurements.</p>
+                <button onclick="openExperiment('fourprobe.html')">Launch Experiment</button>
+            </div>
 
-                Launch Experiment
-
-            </button>
-
-        </div>
-
-        <div class="card">
-
-            <h2>Coming Soon</h2>
-
-            <p>Microwave Test Bench</p>
-
-        </div>
-
-        <div class="card">
-
-            <h2>Coming Soon</h2>
-
-            <p>X-Ray Diffraction</p>
-
-        </div>
-
-        <div class="card">
-
-            <h2>Coming Soon</h2>
-
-            <p>Zeeman Effect</p>
-
-        </div>
+        </section>
 
     </main>
 
     <footer>
-
-        Physics Department Virtual Laboratory
-
+        <p>Advanced Physics Lab | Department of Physics </p>
     </footer>
 
     <script src="script.js"></script>
-
 </body>
 
 </html>

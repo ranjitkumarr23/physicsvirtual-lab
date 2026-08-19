@@ -1,0 +1,688 @@
+/* =========================================================
+   MAGNETOSTRICTION — MICHELSON INTERFEROMETER
+   Compact single-screen simulation
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #eef2f6;
+
+    color: #1f2937;
+}
+
+
+.experiment {
+
+    width: 96%;
+
+    max-width: 1500px;
+
+    margin: 8px auto;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+
+    background: #172554;
+
+    color: white;
+
+    padding: 9px 18px;
+
+    text-align: center;
+
+    border-radius: 9px 9px 0 0;
+}
+
+
+.header h1 {
+
+    font-size: 24px;
+
+    line-height: 1.2;
+
+    margin-bottom: 2px;
+}
+
+
+.subtitle {
+
+    font-size: 11px;
+
+    opacity: 0.85;
+}
+
+
+/* =========================================================
+   MAIN LAYOUT
+   ========================================================= */
+
+.main-layout {
+
+    display: grid;
+
+    grid-template-columns: 42% 58%;
+
+    background: white;
+
+    box-shadow:
+        0 3px 14px rgba(0, 0, 0, 0.08);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   SETUP
+   ========================================================= */
+
+.setup-panel {
+
+    padding: 10px 14px;
+
+    border-right: 1px solid #dbe2ea;
+}
+
+
+.setup-panel h2,
+.simulation-panel h2,
+.controls-panel h2,
+.measurement-panel h2 {
+
+    color: #172554;
+
+    font-size: 16px;
+
+    margin-bottom: 7px;
+}
+
+
+.setup-image-box {
+
+    height: 255px;
+
+    background: #f8fafc;
+
+    border: 1px solid #d7dee8;
+
+    border-radius: 8px;
+
+    padding: 5px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+
+.setup-image {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+    border-radius: 5px;
+}
+
+
+/* =========================================================
+   OPTICAL PATH
+   ========================================================= */
+
+.optical-path {
+
+    margin-top: 6px;
+
+    padding: 6px;
+
+    background: #f1f5f9;
+
+    border-radius: 6px;
+
+    text-align: center;
+
+    font-size: 10px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+}
+
+
+.optical-path span {
+
+    color: #2563eb;
+
+    font-weight: bold;
+
+    margin: 0 4px;
+}
+
+
+/* =========================================================
+   PHYSICS CHAIN
+   ========================================================= */
+
+.physics-chain {
+
+    margin-top: 6px;
+
+    padding: 7px;
+
+    background: #eff6ff;
+
+    border: 1px solid #bfdbfe;
+
+    border-radius: 6px;
+
+    text-align: center;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    color: #1e3a8a;
+}
+
+
+.physics-chain span {
+
+    color: #2563eb;
+
+    margin: 0 3px;
+}
+
+
+/* =========================================================
+   MICHELSON SIMULATION
+   ========================================================= */
+
+.simulation-panel {
+
+    padding: 10px 14px;
+
+    background: #f8fafc;
+}
+
+
+.fringe-container {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 300px;
+
+    background: #020617;
+
+    border: 2px solid #1e293b;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+}
+
+
+#fringeCanvas {
+
+    display: block;
+
+    width: 100%;
+
+    height: 100%;
+
+    background: #020617;
+}
+
+
+.laser-status {
+
+    position: absolute;
+
+    top: 8px;
+
+    left: 10px;
+
+    padding: 4px 8px;
+
+    border-radius: 5px;
+
+    background: rgba(15, 23, 42, 0.85);
+
+    color: #94a3b8;
+
+    font-size: 10px;
+
+    font-weight: bold;
+}
+
+
+.laser-status.on {
+
+    color: #22c55e;
+}
+
+
+.fringe-message {
+
+    margin-top: 6px;
+
+    padding: 6px;
+
+    text-align: center;
+
+    background: #e0f2fe;
+
+    border: 1px solid #bae6fd;
+
+    border-radius: 6px;
+
+    font-size: 10px;
+
+    color: #075985;
+}
+
+
+/* =========================================================
+   CONTROLS
+   ========================================================= */
+
+.controls-panel {
+
+    grid-column: 1 / -1;
+
+    display: grid;
+
+    grid-template-columns:
+        120px 220px minmax(250px, 1fr) 150px;
+
+    gap: 10px;
+
+    align-items: end;
+
+    padding: 8px 14px;
+
+    border-top: 1px solid #dbe2ea;
+
+    background: white;
+}
+
+
+.controls-panel h2 {
+
+    grid-column: 1 / -1;
+
+    margin-bottom: -2px;
+}
+
+
+.control-block label {
+
+    display: block;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    color: #64748b;
+
+    margin-bottom: 4px;
+}
+
+
+.control-button {
+
+    width: 100%;
+
+    height: 36px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #334155;
+
+    color: white;
+
+    font-weight: bold;
+
+    font-size: 11px;
+
+    cursor: pointer;
+}
+
+
+.control-button.on {
+
+    background: #166534;
+}
+
+
+.control-block select,
+#materialSelect {
+
+    width: 100%;
+
+    height: 36px;
+
+    padding: 0 8px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 6px;
+
+    background: white;
+
+    font-size: 10px;
+}
+
+
+.current-block label {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+#currentSlider {
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   FIELD CARD
+   ========================================================= */
+
+.parameter-card {
+
+    height: 36px;
+
+    padding: 5px 9px;
+
+    background: #f8fafc;
+
+    border: 1px solid #dbe2ea;
+
+    border-radius: 6px;
+}
+
+
+.parameter-title {
+
+    font-size: 9px;
+
+    color: #64748b;
+}
+
+
+.parameter-value {
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    color: #172554;
+}
+
+
+/* =========================================================
+   MEASUREMENT
+   ========================================================= */
+
+.measurement-panel {
+
+    margin-top: 9px;
+
+    padding: 9px 12px;
+
+    background: white;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+
+.measurement-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+    gap: 7px;
+}
+
+
+.measurement-card {
+
+    padding: 7px;
+
+    text-align: center;
+
+    background: #f8fafc;
+
+    border: 1px solid #dbe2ea;
+
+    border-radius: 6px;
+}
+
+
+.measurement-title {
+
+    font-size: 9px;
+
+    color: #64748b;
+
+    margin-bottom: 3px;
+}
+
+
+.measurement-value {
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    color: #172554;
+
+    white-space: nowrap;
+}
+
+
+.measurement-message {
+
+    margin-top: 6px;
+
+    padding: 5px;
+
+    text-align: center;
+
+    font-size: 9px;
+
+    color: #64748b;
+
+    background: #f8fafc;
+
+    border-radius: 5px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .main-layout {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .setup-panel {
+
+        border-right: none;
+
+        border-bottom: 1px solid #dbe2ea;
+    }
+
+
+    .controls-panel {
+
+        grid-template-columns:
+            120px 1fr 1fr;
+    }
+
+
+    .parameter-card {
+
+        grid-column: 1 / -1;
+    }
+
+
+    .measurement-grid {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .experiment {
+
+        width: 100%;
+
+        margin: 0;
+    }
+
+
+    .header {
+
+        border-radius: 0;
+    }
+
+
+    .controls-panel {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .controls-panel h2 {
+
+        grid-column: 1;
+    }
+
+
+    .measurement-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+
+    .optical-path {
+
+        white-space: normal;
+    }
+}
+
+/* =========================================================
+   MEASUREMENT ACTIONS
+   ========================================================= */
+
+.measurement-actions {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-top: 8px;
+}
+
+
+.measure-button {
+
+    border: none;
+
+    border-radius: 6px;
+
+    padding: 8px 18px;
+
+    background: #334155;
+
+    color: white;
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+.measure-button:hover {
+
+    opacity: 0.9;
+}
+
+
+.measure-button.calculate {
+
+    background: #166534;
+}
+
+
+.measure-button.reset {
+
+    background: #64748b;
+}
+
+
+.measurement-note {
+
+    margin-top: 6px;
+
+    padding: 6px;
+
+    text-align: center;
+
+    font-size: 10px;
+
+    color: #475569;
+
+    background: #f8fafc;
+
+    border-radius: 5px;
+}

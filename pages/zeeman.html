@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <button class="home-button" onclick="window.location.href='../index.html'">
+        ← Virtual Lab Home
+    </button>
+    <title>Zeeman Effect - PHYWE</title>
+
+    <link rel="stylesheet" href="../css/zeeman.css">
+
+</head>
+
+
+<body>
+
+    <div class="experiment">
+
+
+        <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+        <header class="header">
+
+            <h1>
+                Zeeman Effect
+            </h1>
+
+        </header>
+
+
+        <!-- =====================================================
+     MAIN EXPERIMENT AREA
+====================================================== -->
+
+        <div class="main-layout">
+
+            <!-- =================================================
+         PHYWE APPARATUS
+    ================================================== -->
+
+            <section class="apparatus-panel">
+
+                <h2>
+                    PHYWE Zeeman Experimental Setup
+                </h2>
+
+                <div class="real-apparatus">
+
+                    <img src="../images/zeeman.jpeg" alt="PHYWE Zeeman Effect Experimental Setup"
+                        class="phywe-setup-image">
+
+                    <div class="setup-overlay">
+
+                        <div class="setup-status">
+                            <span id="setupLampIndicator" class="indicator">
+                            </span>
+                            Cd Lamp
+                        </div>
+
+                        <div class="setup-status">
+                            <span id="setupMagnetIndicator" class="indicator">
+                            </span>
+                            Electromagnet
+                        </div>
+
+                        <div class="setup-status">
+                            <span id="setupFPIndicator" class="indicator active">
+                            </span>
+                            Fabry–Perot
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OPTICAL PATH -->
+
+                <div class="optical-path">
+
+                    <span>Cd Lamp</span>
+                    <b>→</b>
+
+                    <span>Electromagnet</span>
+                    <b>→</b>
+
+                    <span>Collection Lens</span>
+                    <b>→</b>
+
+                    <span>Iris</span>
+                    <b>→</b>
+
+                    <span>Fabry–Perot Etalon</span>
+                    <b>→</b>
+
+                    <span>CCD</span>
+
+                </div>
+
+
+                <!-- MAGNETIC FIELD -->
+
+                <div class="magnetic-field">
+
+                    <div class="field-arrow">
+                        Magnetic Field: B →
+                    </div>
+
+                    <div class="field-value">
+
+                        B =
+                        <span id="fieldDisplay">
+                            0.000
+                        </span>
+                        T
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+         FABRY–PEROT / CCD SPECTRUM
+    ================================================== -->
+
+            <section class="spectrum-panel">
+
+                <h2>
+                    Fabry–Perot / CCD Spectrum
+                </h2>
+
+                <div class="ring-display">
+
+                    <canvas id="spectrumCanvas" width="900" height="500">
+                    </canvas>
+
+                </div>
+
+
+                <!-- SMALL STATUS -->
+
+                <div id="spectrumStatus" class="spectrum-status">
+
+                    Lamp OFF
+
+                </div>
+
+
+                <!-- Keep these IDs for JavaScript.
+             They are hidden from the student interface. -->
+
+                <div style="display:none;">
+
+                    <span id="wavelengthValue">
+                        643.8 nm
+                    </span>
+
+                    <span id="observationField">
+                        0.000
+                    </span>
+
+                    <span id="splittingValue">
+                        0.000
+                    </span>
+
+                    <span id="waveNumberValue">
+                        0.000
+                    </span>
+
+                    <span id="componentCount">
+                        1
+                    </span>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+         CONTROLS
+    ================================================== -->
+
+            <section class="control-panel">
+
+                <h2>
+                    Controls
+                </h2>
+
+
+                <!-- LAMP -->
+
+                <button id="lampButton" class="control-button">
+
+                    LAMP OFF
+
+                </button>
+
+
+                <!-- MAGNET CURRENT -->
+
+                <div>
+
+                    <label for="currentSlider">
+                        Magnet Current
+                    </label>
+
+                    <input type="range" id="currentSlider" min="0" max="5" step="0.1" value="0">
+
+                    <div class="value-display">
+
+                        <span id="currentValue">
+                            0.0
+                        </span>
+
+                        A
+
+                    </div>
+
+                </div>
+
+
+                <!-- MAGNETIC FIELD -->
+
+                <div class="field-display-box">
+
+                    Magnetic Flux Density
+
+                    <strong>
+
+                        <span id="fieldControlValue">
+                            0.000
+                        </span>
+
+                        T
+
+                    </strong>
+
+                </div>
+
+
+                <!-- ZEEMAN EFFECT -->
+
+                <div>
+
+                    <label for="zeemanMode">
+                        Zeeman Effect
+                    </label>
+
+                    <select id="zeemanMode">
+
+                        <option value="normal">
+                            Normal Zeeman Effect
+                            — Cd 643.8 nm
+                        </option>
+
+                        <option value="anomalous">
+                            Anomalous Zeeman Effect
+                            — Cd 508.6 nm
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- FABRY PEROT -->
+
+                <div>
+
+                    <label for="fabryPerotMode">
+                        Fabry–Perot Interferometer
+                    </label>
+
+                    <select id="fabryPerotMode">
+
+                        <option value="on">
+                            ON
+                        </option>
+
+                        <option value="off">
+                            OFF
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="status-box">
+
+                    <div>
+
+                        Lamp:
+                        <strong id="lampStatus">
+                            OFF
+                        </strong>
+
+                    </div>
+
+                    <div>
+
+                        Magnetic Field:
+                        <strong id="fieldStatus">
+                            OFF
+                        </strong>
+
+                    </div>
+
+                    <div>
+
+                        Fabry–Perot:
+                        <strong id="fabryPerotStatus">
+                            ON
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+        <!-- =====================================================
+         MEASUREMENT SECTION
+    ====================================================== -->
+
+        <section class="measurement-panel">
+
+            <h2>
+                Zeeman Measurement
+            </h2>
+
+
+            <div class="measurement-grid">
+
+
+                <!-- RING POSITION -->
+
+                <div class="measurement-card">
+
+                    <div class="measurement-title">
+
+                        Ring / Line Position
+
+                    </div>
+
+
+                    <div id="ringPositionValue" class="measurement-number">
+
+                        --
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- DELTA LAMBDA -->
+
+                <div class="measurement-card">
+
+                    <div class="measurement-title">
+
+                        Δλ
+
+                    </div>
+
+
+                    <div id="deltaLambdaValue" class="measurement-number">
+
+                        --
+
+                    </div>
+
+                </div>
+
+                <div class="measurement-card">
+
+                    <div class="measurement-title">
+
+                        Ring Number
+
+                    </div>
+
+
+                    <div id="measuredRing" class="measurement-number">
+
+                        --
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="measurement-card">
+
+                <div class="measurement-title">
+                    Radius
+                </div>
+
+                <div id="measuredRadius" class="measurement-number">
+                    --
+                </div>
+
+            </div>
+
+            <div class="measurement-card">
+
+                <div class="measurement-title">
+                    Radius²
+                </div>
+
+                <div id="measuredRadiusSquared" class="measurement-number">
+                    --
+                </div>
+
+            </div>
+
+            <button id="clearMeasurement" type="button" class="control-button">
+
+                Clear Measurement
+
+            </button>
+
+
+    </div>
+
+
+
+
+    </div>
+    <!-- MEASUREMENT MESSAGE -->
+
+    <div id="measurementStatus" class="measurement-status">
+
+        Start the Cd lamp and establish a magnetic field
+        to observe the Zeeman splitting.
+
+    </div>
+
+    </section>
+
+
+
+    </div>
+
+
+
+    <!-- =========================================================
+     JAVASCRIPT
+========================================================== -->
+
+    <script src="../js/zeeman.js"></script>
+
+
+</body>
+
+</html>

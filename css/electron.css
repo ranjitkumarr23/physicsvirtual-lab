@@ -1,0 +1,652 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #07111f;
+    color: #e5f6ff;
+    min-height: 100vh;
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.lab-header {
+    min-height: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 8px 22px;
+    background: #0d1b2e;
+    border-bottom: 1px solid #1e4f6d;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-width: 0;
+}
+
+.header-left h1 {
+    margin: 0;
+    font-size: 21px;
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+.header-left p {
+    margin: 2px 0 0;
+    color: #8db7cc;
+    font-size: 11px;
+}
+
+.home-button {
+    padding: 7px 11px;
+    background: #174866;
+    color: white;
+    border: 1px solid #28698d;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.home-button:hover {
+    background: #216383;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.status-light {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #35d07f;
+    box-shadow: 0 0 8px #35d07f;
+}
+
+/* =========================
+   MAIN CONTAINER
+   ========================= */
+
+.lab-container {
+    max-width: 1450px;
+    margin: auto;
+    padding: 10px 18px 14px;
+}
+
+.panel {
+    background: #0d1b2e;
+    border: 1px solid #1e4f6d;
+    border-radius: 10px;
+    padding: 11px;
+}
+
+.panel h2 {
+    margin: 0;
+    color: #73d8ff;
+    font-size: 15px;
+}
+
+/* =========================
+   TOP: PHOTO + RESULT
+   ========================= */
+
+.top-row {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.apparatus-panel,
+.screen-panel {
+    min-height: 315px;
+    height: 315px;
+}
+
+.apparatus-image {
+    height: 235px;
+    margin-top: 8px;
+    background: #07111f;
+    border: 1px solid #17354a;
+    border-radius: 7px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.apparatus-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.image-placeholder {
+    display: none;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    color: #73d8ff;
+    font-size: 13px;
+}
+
+.image-placeholder span {
+    color: #8db7cc;
+    font-size: 11px;
+}
+
+.apparatus-caption {
+    text-align: center;
+    margin-top: 6px;
+    color: #8db7cc;
+    font-size: 10px;
+}
+
+/* =========================
+   DIFFRACTION SCREEN
+   ========================= */
+
+.panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+#screenStatus {
+    color: #8db7cc;
+    font-size: 11px;
+}
+
+.screen-container {
+    width: min(100%, 285px);
+    aspect-ratio: 1 / 1;
+    margin: 3px auto 0;
+    background: #000;
+    border-radius: 50%;
+    border: 8px solid #24384b;
+    box-shadow:
+        inset 0 0 30px rgba(0, 180, 255, 0.12),
+        0 0 18px rgba(0, 180, 255, 0.12);
+    overflow: hidden;
+}
+
+#diffractionCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.screen-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 4px;
+    color: #8db7cc;
+    font-size: 10px;
+}
+
+/* =========================
+   CONTROLS
+   ========================= */
+
+.controls-panel {
+    margin-top: 10px;
+}
+
+.section-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.section-title h2 {
+    font-size: 15px;
+}
+
+.section-title span {
+    color: #6f9aad;
+    font-size: 10px;
+}
+
+.controls-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.25fr 1.15fr 1.15fr 1fr;
+    gap: 9px;
+}
+
+.control-card {
+    background: #07111f;
+    border: 1px solid #17354a;
+    border-radius: 7px;
+    padding: 8px 10px;
+    min-height: 78px;
+}
+
+.control-card label {
+    display: block;
+    margin-bottom: 4px;
+    color: #b9d5e3;
+    font-size: 11px;
+}
+
+.value-display {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 4px;
+}
+
+input[type="range"] {
+    width: 100%;
+    height: 15px;
+    accent-color: #00bfff;
+    cursor: pointer;
+}
+
+.power-button,
+.reset-button {
+    width: 100%;
+    padding: 9px 7px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+.power-button {
+    background: #7f1d1d;
+    color: white;
+}
+
+.power-button.on {
+    background: #15803d;
+    box-shadow: 0 0 10px #35d07f;
+}
+
+.reset-button {
+    background: #174866;
+    color: white;
+}
+
+.reset-button:hover {
+    background: #216383;
+}
+
+/* =========================
+   MEASUREMENTS
+   ========================= */
+
+.measurement-panel {
+    margin-top: 10px;
+}
+
+.measurement-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 9px;
+}
+
+.measurement-card {
+    background: #07111f;
+    border: 1px solid #17354a;
+    border-radius: 7px;
+    padding: 8px 11px;
+    min-height: 57px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.measurement-card span {
+    color: #8db7cc;
+    font-size: 10px;
+}
+
+.measurement-card strong {
+    color: #73d8ff;
+    font-size: 15px;
+    text-align: right;
+}
+
+/* =========================
+   MEASUREMENT SCALE
+   ========================= */
+
+.measurement-scale {
+    margin-top: 7px;
+    padding: 6px 10px;
+    background: #07111f;
+    border: 1px solid #17354a;
+    border-radius: 6px;
+}
+
+.scale-title {
+    text-align: center;
+    color: #73d8ff;
+    font-size: 9px;
+    margin-bottom: 5px;
+}
+
+.scale-line {
+    position: relative;
+    height: 8px;
+    margin: 0 5px;
+    border-top: 2px solid #73d8ff;
+}
+
+.tick {
+    position: absolute;
+    top: -6px;
+    width: 2px;
+    height: 10px;
+    background: #73d8ff;
+}
+
+.tick-0 {
+    left: 0%;
+}
+
+.tick-25 {
+    left: 25%;
+}
+
+.tick-50 {
+    left: 50%;
+}
+
+.tick-75 {
+    left: 75%;
+}
+
+.tick-100 {
+    left: 100%;
+}
+
+.scale-labels {
+    display: flex;
+    justify-content: space-between;
+    color: #8db7cc;
+    font-size: 8px;
+    margin-top: 2px;
+}
+
+/* =========================
+   INFORMATION
+   ========================= */
+
+.information-row {
+    display: grid;
+    grid-template-columns: 1.1fr 1.4fr 0.8fr;
+    gap: 9px;
+    margin-top: 10px;
+}
+
+.info-box {
+    background: #0d1b2e;
+    border: 1px solid #1e4f6d;
+    border-left: 3px solid #00bfff;
+    border-radius: 7px;
+    padding: 9px;
+}
+
+.info-box h3 {
+    margin: 0 0 4px;
+    font-size: 12px;
+    color: #73d8ff;
+}
+
+.info-box p {
+    margin: 0;
+    color: #b9d5e3;
+    font-size: 10px;
+    line-height: 1.35;
+}
+
+.formula {
+    margin-top: 5px;
+    background: #07111f;
+    padding: 5px;
+    text-align: center;
+    border-radius: 4px;
+    color: #73d8ff;
+    font-size: 13px;
+}
+
+/* =========================
+   BOTTOM NAVIGATION
+   ========================= */
+
+.experiment-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    padding: 5px 15px 9px;
+    flex-wrap: wrap;
+}
+
+.experiment-navigation button {
+    background: #0d1b2e;
+    color: #b9d5e3;
+    border: 1px solid #1e4f6d;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.experiment-navigation button:hover {
+    background: #174866;
+}
+
+/* =========================
+   FOOTER
+   ========================= */
+
+footer {
+    text-align: center;
+    padding: 6px;
+    color: #6f9aad;
+    font-size: 9px;
+}
+
+/* =========================
+   LAPTOP / SMALL DESKTOP
+   ========================= */
+
+@media (max-height: 800px) and (min-width: 801px) {
+
+    .lab-header {
+        height: 54px;
+        min-height: 54px;
+        padding: 6px 20px;
+    }
+
+    .header-left h1 {
+        font-size: 19px;
+    }
+
+    .lab-container {
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .apparatus-panel,
+    .screen-panel {
+        height: 285px;
+        min-height: 285px;
+    }
+
+    .apparatus-image {
+        height: 205px;
+    }
+
+    .screen-container {
+        width: 255px;
+    }
+
+    .controls-panel,
+    .measurement-panel {
+        margin-top: 8px;
+    }
+
+    .control-card {
+        min-height: 70px;
+        padding: 7px 9px;
+    }
+
+    .measurement-card {
+        min-height: 50px;
+        padding: 7px 9px;
+    }
+
+    .information-row {
+        display: none;
+    }
+
+    .experiment-navigation {
+        display: none;
+    }
+
+    footer {
+        display: none;
+    }
+}
+
+/* =========================
+   TABLET
+   ========================= */
+
+@media (max-width: 1000px) {
+
+    .top-row {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .apparatus-panel,
+    .screen-panel {
+        height: 300px;
+        min-height: 300px;
+    }
+
+    .apparatus-image {
+        height: 220px;
+    }
+
+    .screen-container {
+        width: 250px;
+    }
+
+    .controls-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .measurement-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .information-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 700px) {
+
+    .lab-header {
+        height: auto;
+        min-height: 58px;
+        padding: 8px 12px;
+    }
+
+    .header-left {
+        gap: 8px;
+    }
+
+    .header-left h1 {
+        font-size: 17px;
+    }
+
+    .header-left p {
+        display: none;
+    }
+
+    .home-button {
+        font-size: 9px;
+        padding: 6px 8px;
+    }
+
+    .status {
+        font-size: 9px;
+    }
+
+    .lab-container {
+        padding: 8px 10px;
+    }
+
+    .top-row {
+        grid-template-columns: 1fr;
+    }
+
+    .apparatus-panel,
+    .screen-panel {
+        height: auto;
+        min-height: 0;
+    }
+
+    .apparatus-image {
+        height: 210px;
+    }
+
+    .screen-container {
+        width: min(100%, 280px);
+    }
+
+    .controls-grid,
+    .measurement-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title {
+        display: block;
+    }
+
+    .section-title span {
+        display: block;
+        margin-top: 3px;
+    }
+
+    .measurement-card {
+        min-height: 50px;
+    }
+}

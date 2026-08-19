@@ -1,0 +1,1002 @@
+/* =========================================================
+   FOUR PROBE METHOD
+   ENERGY BAND GAP SIMULATION
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #eef2f7;
+    color: #102a43;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
+.experiment-container {
+
+    width: 100%;
+
+    max-width: 1250px;
+
+    margin: 8px auto;
+
+    background: #ffffff;
+
+    border-radius: 9px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 2px 12px rgba(0, 0, 0, 0.10);
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.experiment-header {
+
+    background: #192a5a;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 9px 12px;
+}
+
+.header-title {
+
+    font-size: 23px;
+
+    font-weight: bold;
+
+    line-height: 1.2;
+}
+
+.header-subtitle {
+
+    margin-top: 3px;
+
+    font-size: 12px;
+
+    opacity: 0.9;
+}
+
+
+/* =========================================================
+   GENERAL SECTION
+   ========================================================= */
+
+section {
+
+    padding: 8px 13px;
+}
+
+.section-title {
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    color: #102a43;
+
+    margin-bottom: 5px;
+}
+
+
+/* =========================================================
+   TOP DISPLAY
+   EQUIPMENT + GRAPH
+   ========================================================= */
+
+.top-display {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 9px;
+
+    padding: 9px 13px;
+
+    border-bottom: 1px solid #d9e2ec;
+}
+
+
+/* =========================================================
+   EQUIPMENT
+   ========================================================= */
+
+.equipment-top {
+
+    min-width: 0;
+}
+
+.equipment-card {
+
+    height: 270px;
+
+    padding: 6px;
+
+    background: #f8fafc;
+
+    border: 1px solid #d6e0ea;
+
+    border-radius: 7px;
+}
+
+
+.equipment-image {
+
+    display: block;
+
+    width: 100%;
+
+    height: 218px;
+
+    object-fit: contain;
+
+    border-radius: 5px;
+
+    background: #f1f5f9;
+}
+
+
+/* =========================================================
+   EQUIPMENT FLOW
+   ========================================================= */
+
+.equipment-flow {
+
+    margin-top: 5px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 4px;
+
+    font-size: 8px;
+
+    color: #486581;
+}
+
+
+.equipment-flow span:not(.arrow) {
+
+    background: white;
+
+    border: 1px solid #d6e0ea;
+
+    border-radius: 4px;
+
+    padding: 3px 5px;
+}
+
+
+.equipment-flow .arrow {
+
+    color: #2563eb;
+
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   GRAPH
+   ========================================================= */
+
+.graph-panel {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.graph-card {
+
+    width: 100%;
+
+    height: 270px;
+
+    background: white;
+
+    border: 1px solid #d6e0ea;
+
+    border-radius: 7px;
+
+    overflow: hidden;
+}
+
+
+#bandGapGraph {
+
+    display: block;
+
+    width: 100%;
+
+    height: 100%;
+}
+
+
+.graph-axis-label {
+
+    text-align: center;
+
+    margin-top: 3px;
+
+    font-size: 10px;
+
+    font-weight: bold;
+
+    color: #486581;
+}
+
+
+.graph-status {
+
+    margin-top: 3px;
+
+    padding: 4px;
+
+    text-align: center;
+
+    background: #f8fafc;
+
+    border-radius: 4px;
+
+    font-size: 8px;
+
+    color: #829ab1;
+}
+
+
+/* =========================================================
+   CONTROLS
+   ========================================================= */
+
+.controls-section {
+
+    padding: 8px 13px;
+
+    border-bottom: 1px solid #d9e2ec;
+}
+
+
+.controls-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1.25fr 1.15fr 1fr 0.9fr;
+
+    gap: 7px;
+
+    align-items: stretch;
+}
+
+
+/* =========================================================
+   CONTROL CARD
+   ========================================================= */
+
+.control-card {
+
+    background: #f8fafc;
+
+    border: 1px solid #d6e0ea;
+
+    border-radius: 6px;
+
+    padding: 7px;
+
+    min-width: 0;
+}
+
+
+.control-label {
+
+    font-size: 9px;
+
+    font-weight: bold;
+
+    color: #486581;
+
+    margin-bottom: 4px;
+}
+
+
+/* =========================================================
+   MATERIAL
+   ========================================================= */
+
+.select-control {
+
+    width: 100%;
+
+    padding: 6px 7px;
+
+    border: 1px solid #bcccdc;
+
+    border-radius: 4px;
+
+    background: white;
+
+    color: #102a43;
+
+    font-size: 11px;
+
+    outline: none;
+}
+
+
+.select-control:focus {
+
+    border-color: #2563eb;
+}
+
+
+/* =========================================================
+   CURRENT
+   ========================================================= */
+
+.slider-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+}
+
+
+.slider-row input[type="range"] {
+
+    flex: 1;
+
+    min-width: 0;
+
+    cursor: pointer;
+}
+
+
+#currentValue {
+
+    min-width: 51px;
+
+    text-align: right;
+
+    font-size: 11px;
+
+    font-weight: bold;
+}
+
+
+.constant-current-label {
+
+    margin-top: 3px;
+
+    font-size: 8px;
+
+    font-weight: bold;
+
+    color: #15803d;
+}
+
+
+/* =========================================================
+   OVEN
+   ========================================================= */
+
+.temperature-display {
+
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 3px;
+
+    font-size: 21px;
+
+    font-weight: bold;
+
+    color: #102a43;
+}
+
+
+.temperature-status {
+
+    margin: 2px 0 4px;
+
+    font-size: 8px;
+
+    color: #64748b;
+}
+
+
+.oven-buttons {
+
+    display: flex;
+
+    gap: 4px;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+button {
+
+    border: none;
+
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    transition: 0.15s ease;
+}
+
+
+button:hover:not(:disabled) {
+
+    transform: translateY(-1px);
+}
+
+
+button:disabled {
+
+    opacity: 0.45;
+
+    cursor: not-allowed;
+}
+
+
+/* Oven buttons */
+
+.primary-button,
+.secondary-button {
+
+    flex: 1;
+
+    padding: 6px 4px;
+
+    font-size: 8px;
+
+    color: white;
+}
+
+
+.primary-button {
+
+    background: #334155;
+}
+
+
+.secondary-button {
+
+    background: #64748b;
+}
+
+
+/* =========================================================
+   VOLTAGE
+   ========================================================= */
+
+.large-reading {
+
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 4px;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    color: #0f3b6d;
+}
+
+
+.reading-info {
+
+    margin-top: 2px;
+
+    font-size: 8px;
+
+    color: #829ab1;
+}
+
+
+/* =========================================================
+   MEASURE
+   ========================================================= */
+
+.measure-control {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    min-width: 0;
+}
+
+
+.measure-button {
+
+    width: 100%;
+
+    padding: 9px 5px;
+
+    background: #192a5a;
+
+    color: white;
+
+    font-size: 10px;
+}
+
+
+.measurement-message {
+
+    margin-top: 4px;
+
+    padding: 5px;
+
+    background: #eef6ff;
+
+    border: 1px solid #c7ddf5;
+
+    border-radius: 4px;
+
+    text-align: center;
+
+    font-size: 7px;
+
+    color: #486581;
+}
+
+
+/* =========================================================
+   MEASUREMENT TABLE
+   ========================================================= */
+
+.measurement-section {
+
+    padding: 7px 13px;
+}
+
+
+.measurement-heading-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.measurement-instruction {
+
+    font-size: 8px;
+
+    color: #829ab1;
+}
+
+
+.table-wrapper {
+
+    width: 100%;
+
+    height: 90px;
+
+    overflow-y: auto;
+
+    border: 1px solid #d6e0ea;
+
+    border-radius: 5px;
+}
+
+
+#measurementTable {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 8px;
+}
+
+
+#measurementTable th {
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 2;
+
+    background: #e8eef5;
+
+    color: #243b53;
+
+    padding: 4px;
+
+    font-weight: bold;
+
+    border-bottom: 1px solid #cbd5e1;
+}
+
+
+#measurementTable td {
+
+    padding: 3px;
+
+    text-align: center;
+
+    border-bottom: 1px solid #edf2f7;
+
+    color: #334e68;
+}
+
+
+#measurementTable tr:nth-child(even) {
+
+    background: #f8fafc;
+}
+
+
+/* =========================================================
+   CALCULATION
+   ========================================================= */
+
+.calculation-section {
+
+    padding: 7px 13px;
+
+    background: #f8fafc;
+
+    border-top: 1px solid #d9e2ec;
+}
+
+
+.calculation-content {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1.2fr auto auto;
+
+    gap: 6px;
+
+    align-items: stretch;
+}
+
+
+.result-card {
+
+    background: white;
+
+    border: 1px solid #d6e0ea;
+
+    border-radius: 5px;
+
+    padding: 5px 8px;
+
+    text-align: center;
+}
+
+
+.result-label {
+
+    font-size: 7px;
+
+    color: #627d98;
+
+    margin-bottom: 2px;
+}
+
+
+.result-value {
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    color: #102a43;
+}
+
+
+.result-value.highlight {
+
+    color: #166534;
+
+    font-size: 17px;
+}
+
+
+.result-unit {
+
+    font-size: 7px;
+
+    color: #627d98;
+}
+
+
+/* =========================================================
+   CALCULATE / RESET
+   ========================================================= */
+
+.calculate-button,
+.reset-button {
+
+    align-self: stretch;
+
+    padding: 6px 12px;
+
+    font-size: 8px;
+
+    color: white;
+}
+
+
+.calculate-button {
+
+    background: #166534;
+}
+
+
+.reset-button {
+
+    background: #64748b;
+}
+
+
+/* =========================================================
+   CALCULATION MESSAGE
+   ========================================================= */
+
+.calculation-message {
+
+    margin-top: 4px;
+
+    padding: 4px 6px;
+
+    background: white;
+
+    border: 1px solid #d6e0ea;
+
+    border-radius: 4px;
+
+    font-size: 7px;
+
+    color: #627d98;
+}
+
+
+/* =========================================================
+   PRINCIPLE
+   ========================================================= */
+
+.principle-section {
+
+    padding: 6px 13px;
+
+    background: white;
+}
+
+
+.principle-flow {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 4px;
+
+    flex-wrap: wrap;
+}
+
+
+.principle-step {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 90px;
+
+    padding: 4px 6px;
+
+    background: #f8fafc;
+
+    border: 1px solid #d6e0ea;
+
+    border-radius: 4px;
+
+    text-align: center;
+}
+
+
+.principle-step strong {
+
+    font-size: 8px;
+
+    color: #243b53;
+}
+
+
+.principle-step span {
+
+    margin-top: 1px;
+
+    font-size: 7px;
+
+    color: #829ab1;
+}
+
+
+.principle-step.final {
+
+    background: #f0fdf4;
+
+    border-color: #bbf7d0;
+}
+
+
+.principle-step.final strong {
+
+    color: #166534;
+}
+
+
+.principle-arrow {
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.experiment-footer {
+
+    padding: 4px;
+
+    background: #192a5a;
+
+    color: white;
+
+    text-align: center;
+
+    font-size: 7px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .top-display {
+
+        grid-template-columns: 1fr 1fr;
+
+    }
+
+    .controls-grid {
+
+        grid-template-columns:
+            1fr 1fr 1fr;
+    }
+
+}
+
+
+@media (max-width: 750px) {
+
+    .top-display {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .equipment-card {
+
+        height: 230px;
+    }
+
+    .equipment-image {
+
+        height: 180px;
+    }
+
+    .graph-card {
+
+        height: 230px;
+    }
+
+    .controls-grid {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .calculation-content {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .experiment-container {
+
+        margin: 0;
+    }
+
+    .top-display {
+
+        grid-template-columns: 1fr;
+    }
+
+    .controls-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+    .calculation-content {
+
+        grid-template-columns: 1fr;
+    }
+
+    .principle-arrow {
+
+        display: none;
+    }
+
+}
